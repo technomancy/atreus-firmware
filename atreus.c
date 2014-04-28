@@ -7,7 +7,7 @@
 #define ROW_COUNT 4
 #define COL_COUNT 11
 
-#define DEBOUNCES 5
+#define DEBOUNCE_PASSES 3
 
 #define FN_PRESSED (~PINB & 8)
 
@@ -118,14 +118,18 @@ void scan_rows() {
 
 void debounce() {
   int passes = 0;
-  while(passes < DEBOUNCES) {
+  while(passes < DEBOUNCE_PASSES) {
     memcpy(keyboard_keys, debouncing_keys, 6);
     debouncing_modifier_keys = keyboard_modifier_keys;
     scan_rows();
     _delay_ms(1);
-    if(memcmp(keyboard_keys, debouncing_keys, pressed_count) && \
-       debouncing_modifier_keys == keyboard_modifier_keys) {
+    // TODO: include fn in debouncing calculation
+    if(!pressed_count || \
+       (memcmp(keyboard_keys, debouncing_keys, pressed_count) &&    \
+        debouncing_modifier_keys == keyboard_modifier_keys)) {
       passes++;
+    } else {
+      passes = 0;
     }
   }
 };
