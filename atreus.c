@@ -1,14 +1,20 @@
 #include <stdlib.h>
 #include <avr/io.h>
+#include <string.h>
 #include <util/delay.h>
 #include "usb_keyboard.h"
 
 #define ROW_COUNT 4
 #define COL_COUNT 11
 
+#define DEBOUNCES 5
+
 #define FN_PRESSED (~PINB & 8)
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
+
+uint8_t debouncing_keys[6];
+uint8_t debouncing_modifier_keys;
 
 void reset(void);
 
@@ -55,6 +61,7 @@ void press(int keycode) {
 
 void activate_row(int row) {
   PORTD = (char)(~(1 << row)) | 32; // leave the LED on
+  _delay_us(50);
 };
 
 void scan_row(int row) {
@@ -93,24 +100,40 @@ void init() {
 
 void clear_keys() {
   keyboard_modifier_keys = 0;
-  pressed_count = 0;
   for(int i = 0; i < 6; i++) {
     keyboard_keys[i] = 0;
   };
 };
 
+void scan_rows() {
+  // 4th row is still active from last scan
+  current_row = FN_PRESSED ? fn_layout : base_layout;
+  pressed_count = 0;
+  for(int i = 0; i < ROW_COUNT; i++) {
+    activate_row(i);
+    scan_row(i);
+    current_row += COL_COUNT;
+  };
+};
+
+void debounce() {
+  int passes = 0;
+  while(passes < DEBOUNCES) {
+    memcpy(keyboard_keys, debouncing_keys, 6);
+    debouncing_modifier_keys = keyboard_modifier_keys;
+    scan_rows();
+    _delay_ms(1);
+    if(memcmp(keyboard_keys, debouncing_keys, pressed_count) && \
+       debouncing_modifier_keys == keyboard_modifier_keys) {
+      passes++;
+    }
+  }
+};
+
 int main() {
   init();
   while(1) {
-    // 4th row is still active from last scan
-    current_row = FN_PRESSED ? fn_layout : base_layout;
-    for(int i = 0; i < ROW_COUNT; i++) {
-      activate_row(i);
-      scan_row(i);
-      current_row += COL_COUNT;
-      _delay_us(50);
-    };
-    // TODO: debounce
+    debounce();
     usb_keyboard_send();
     clear_keys();
   };
