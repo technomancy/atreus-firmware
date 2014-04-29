@@ -82,28 +82,31 @@ void debounce(int passes_remaining) {
   }
 };
 
-void perform_actions() {
+void pre_invoke_functions() {
   for(int i = 0; i < pressed_count; i++) {
-    int action = current_layer[presses[pressed_count]];
-    if(action >= 200) {
-      (layer_functions[action - 200])();
+    int keycode = current_layer[presses[pressed_count]];
+    if(keycode >= 200 && keycode < 300) {
+      (layer_functions[keycode - 200])();
     }
   }
 };
 
 void calculate_presses() {
   int keycode = 0;
+  int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
-    keycode = current_layer[presses[pressed_count]];
-    if(keycode >= 200) {
-      // functions have already been processed
-    } else if(keycode > 108) {
-      keyboard_modifier_keys |= KEY_SHIFT;
-      keyboard_keys[pressed_count++] = (keycode - 108);
+    keycode = current_layer[presses[i]];
+    if(keycode >= 300) {
+      (layer_functions[keycode - 200])();
+    } else if(keycode >= 200) {
+      // pre-invoke functions have already been processed
     } else if(keycode > 100) {
       keyboard_modifier_keys |= (keycode - 100);
-    } else if(pressed_count < 6){
-      keyboard_keys[pressed_count++] = keycode;
+    } else if(keycode > 108 && usb_presses < 6) {
+      keyboard_modifier_keys |= KEY_SHIFT;
+      keyboard_keys[usb_presses++] = (keycode - 108);
+    } else if(usb_presses < 6){
+      keyboard_keys[usb_presses++] = keycode;
     };
   };
 };
@@ -133,7 +136,7 @@ int main() {
   while(1) {
     clear_keys();
     debounce(DEBOUNCE_PASSES);
-    perform_actions(); // call all functions before interpreting layers
+    pre_invoke_functions();
     calculate_presses();
     usb_keyboard_send();
   };
