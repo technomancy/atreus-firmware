@@ -4,59 +4,33 @@
 #include <util/delay.h>
 #include "usb_keyboard.h"
 
-#define ROW_COUNT 4
-#define COL_COUNT 11
-
 #define DEBOUNCE_PASSES 3
-
-#define FN_PRESSED (~PINB & 8)
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
 
-uint8_t debouncing_keys[6];
-uint8_t debouncing_modifier_keys;
+
 
 void reset(void);
 
-
+// set this for layer changes that need to persist beyond one cycle
+int current_layer_number = 0;
+int *current_layer;
 
-// Outputs
-// |------------+----+----+----+----|
-// | row number |  0 |  1 |  2 |  3 |
-// |------------+----+----+----+----|
-// | pin number | D0 | D1 | D2 | D3 |
-// |------------+----+----+----+----|
+// layout.h must define:
+// * ROW_COUNT, COL_COUNT, KEY_COUNT
+// * layers: array of int[KEY_COUNT]
+// * layer_functions: array of void function pointers
+// ... plus any functions included in layer_functions
+#include "layout.h"
 
-// Inputs
-// |---------------+----+----+----+----+----+----+----+----+----+----+----|
-// | column number |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 |
-// |---------------+----+----+----+----+----+----+----+----+----+----+----|
-// | pin number    | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 | F4 | F5 | F6 |
-// |---------------+----+----+----+----+----+----+----+----+----+----+----|
-
-
-
-// TODO: create layout mapping tool
-
-#include "layouts.h"
-
-int *current_row;
 int pressed_count = 0;
+int presses[KEY_COUNT];
+int debouncing_presses[KEY_COUNT];
 
 
 
-void press(int keycode) {
-  if(!keycode) return;
-  if(keycode == 255) {
-    reset(); // TODO: make a table of codes -> functions
-  } else if(keycode > 108 && pressed_count < 6) {
-    keyboard_modifier_keys |= KEY_SHIFT;
-    keyboard_keys[pressed_count++] = (keycode - 108);
-  } else if(keycode > 100) {
-    keyboard_modifier_keys |= (keycode - 100);
-  } else if(pressed_count < 6){
-    keyboard_keys[pressed_count++] = keycode;
-  };
+void record(int col, int row) {
+  presses[pressed_count++] = (row * COL_COUNT) + col;
 };
 
 void activate_row(int row) {
@@ -68,22 +42,70 @@ void scan_row(int row) {
   // if((~PINF) & 64) reset();
   unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
   /* for(int col = 0; col < COL_COUNT; col++) { */
-  /*   if(col_bits & 1024) { */
-  /*     press(current_row[col]); */
-  /*   } */
+  /*   if(col_bits & 1024) record(col, row); */
   /*   col_bits << 1; */
   /* } */
-  if(col_bits & 1024) press(current_row[0]);
-  if(col_bits & 512) press(current_row[1]);
-  if(col_bits & 256) press(current_row[2]);
-  if(col_bits & 128) press(current_row[3]);
-  if(col_bits & 64) press(current_row[4]);
-  if(col_bits & 32) press(current_row[5]);
-  if(col_bits & 16) press(current_row[6]);
-  if(col_bits & 8) press(current_row[7]);
-  if(col_bits & 4) press(current_row[8]);
-  if(col_bits & 2) press(current_row[9]);
-  if(col_bits & 1) press(current_row[10]);
+
+  if(col_bits & 1024) record(0, row);
+  if(col_bits & 512) record(1, row);
+  if(col_bits & 256) record(2, row);
+  if(col_bits & 128) record(3, row);
+  if(col_bits & 64) record(4, row);
+  if(col_bits & 32) record(5, row);
+  if(col_bits & 16) record(6, row);
+  if(col_bits & 8) record(7, row);
+  if(col_bits & 4) record(8, row);
+  if(col_bits & 2) record(9, row);
+  if(col_bits & 1) record(10, row);
+};
+
+void scan_rows() {
+  for(int i = 0; i < ROW_COUNT; i++) {
+    activate_row(i);
+    scan_row(i);
+  };
+};
+
+
+
+void debounce(int passes_remaining) {
+  while(passes_remaining) {
+    memcpy(presses, debouncing_presses, KEY_COUNT);
+    pressed_count = 0;
+    scan_rows();
+    _delay_ms(1);
+    if(!pressed_count || memcmp(presses, debouncing_presses, pressed_count)) {
+      passes_remaining--;
+    } else {
+      passes_remaining = DEBOUNCE_PASSES;
+    }
+  }
+};
+
+void perform_actions() {
+  for(int i = 0; i < pressed_count; i++) {
+    int action = current_layer[presses[pressed_count]];
+    if(action >= 200) {
+      (layer_functions[action - 200])();
+    }
+  }
+};
+
+void calculate_presses() {
+  int keycode = 0;
+  for(int i = 0; i < pressed_count; i++) {
+    keycode = current_layer[presses[pressed_count]];
+    if(keycode >= 200) {
+      // functions have already been processed
+    } else if(keycode > 108) {
+      keyboard_modifier_keys |= KEY_SHIFT;
+      keyboard_keys[pressed_count++] = (keycode - 108);
+    } else if(keycode > 100) {
+      keyboard_modifier_keys |= (keycode - 100);
+    } else if(pressed_count < 6){
+      keyboard_keys[pressed_count++] = keycode;
+    };
+  };
 };
 
 
@@ -99,47 +121,21 @@ void init() {
 };
 
 void clear_keys() {
+  current_layer = layers[current_layer_number];
   keyboard_modifier_keys = 0;
   for(int i = 0; i < 6; i++) {
     keyboard_keys[i] = 0;
   };
 };
 
-void scan_rows() {
-  // 4th row is still active from last scan
-  current_row = FN_PRESSED ? fn_layout : base_layout;
-  pressed_count = 0;
-  for(int i = 0; i < ROW_COUNT; i++) {
-    activate_row(i);
-    scan_row(i);
-    current_row += COL_COUNT;
-  };
-};
-
-void debounce() {
-  int passes = 0;
-  while(passes < DEBOUNCE_PASSES) {
-    memcpy(keyboard_keys, debouncing_keys, 6);
-    debouncing_modifier_keys = keyboard_modifier_keys;
-    scan_rows();
-    _delay_ms(1);
-    // TODO: include fn in debouncing calculation
-    if(!pressed_count || \
-       (memcmp(keyboard_keys, debouncing_keys, pressed_count) &&    \
-        debouncing_modifier_keys == keyboard_modifier_keys)) {
-      passes++;
-    } else {
-      passes = 0;
-    }
-  }
-};
-
 int main() {
   init();
   while(1) {
-    debounce();
-    usb_keyboard_send();
     clear_keys();
+    debounce(DEBOUNCE_PASSES);
+    perform_actions(); // call all functions before interpreting layers
+    calculate_presses();
+    usb_keyboard_send();
   };
 };
 
