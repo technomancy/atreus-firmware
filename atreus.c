@@ -38,25 +38,14 @@ void activate_row(int row) {
   _delay_us(50);
 };
 
+// TODO: 0,0 never registers
 void scan_row(int row) {
-  // if((~PINF) & 64) reset();
+  // if(((~PINF) & 64) && row == 3) reset();
   unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
-  /* for(int col = 0; col < COL_COUNT; col++) { */
-  /*   if(col_bits & 1024) record(col, row); */
-  /*   col_bits << 1; */
-  /* } */
-
-  if(col_bits & 1024) record(0, row);
-  if(col_bits & 512) record(1, row);
-  if(col_bits & 256) record(2, row);
-  if(col_bits & 128) record(3, row);
-  if(col_bits & 64) record(4, row);
-  if(col_bits & 32) record(5, row);
-  if(col_bits & 16) record(6, row);
-  if(col_bits & 8) record(7, row);
-  if(col_bits & 4) record(8, row);
-  if(col_bits & 2) record(9, row);
-  if(col_bits & 1) record(10, row);
+  for(int col = 0; col < COL_COUNT; col++) {
+    if(col_bits & 1024) record(col, row);
+    col_bits = col_bits << 1;
+  }
 };
 
 void scan_rows() {
