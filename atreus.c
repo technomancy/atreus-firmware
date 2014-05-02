@@ -73,7 +73,7 @@ void debounce(int passes_remaining) {
 
 void pre_invoke_functions() {
   for(int i = 0; i < pressed_count; i++) {
-    int keycode = current_layer[presses[pressed_count]];
+    int keycode = current_layer[presses[i]];
     if(keycode >= 200 && keycode < 300) {
       (layer_functions[keycode - 200])();
     }
@@ -86,10 +86,10 @@ void calculate_presses() {
   for(int i = 0; i < pressed_count; i++) {
     keycode = current_layer[presses[i]];
     if(keycode >= 300) {
-      (layer_functions[keycode - 200])();
+      (layer_functions[keycode - 300])();
     } else if(keycode >= 200) {
       // pre-invoke functions have already been processed
-    } else if(keycode > 100) {
+    } else if(keycode > 100 && keycode <= 108) {
       keyboard_modifier_keys |= (keycode - 100);
     } else if(keycode > 108 && usb_presses < 6) {
       keyboard_modifier_keys |= KEY_SHIFT;
