@@ -25,9 +25,11 @@ int *current_layer;
 
 int pressed_count = 0;
 int presses[KEY_COUNT];
-int debouncing_presses[KEY_COUNT];
+int last_pressed_count = 0;
+int last_presses[KEY_COUNT];
 
 
+// Matrix scanning logic
 
 void record(int col, int row) {
   presses[pressed_count++] = (row * COL_COUNT) + col;
@@ -49,6 +51,7 @@ void scan_row(int row) {
 };
 
 void scan_rows() {
+  pressed_count = 0;
   for(int i = 0; i < ROW_COUNT; i++) {
     activate_row(i);
     scan_row(i);
@@ -56,17 +59,22 @@ void scan_rows() {
 };
 
 
+// Cycle functions
 
 void debounce(int passes_remaining) {
   while(passes_remaining) {
-    memcpy(presses, debouncing_presses, KEY_COUNT);
-    pressed_count = 0;
+    last_pressed_count = pressed_count;
+    for(int i = 0; i < last_pressed_count; i++) {
+      last_presses[i] = presses[i];
+    }
+
     scan_rows();
-    _delay_ms(1);
-    if(!pressed_count || memcmp(presses, debouncing_presses, pressed_count)) {
-      passes_remaining--;
-    } else {
+
+    if((pressed_count != last_pressed_count) || \
+       memcmp(presses, last_presses, pressed_count)) {
       passes_remaining = DEBOUNCE_PASSES;
+    } else {
+      passes_remaining--;
     }
   }
 };
