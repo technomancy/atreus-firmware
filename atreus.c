@@ -4,16 +4,18 @@
 #include <util/delay.h>
 #include "usb_keyboard.h"
 
-#define DEBOUNCE_PASSES 3
+#define DEBOUNCE_PASSES 5
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
 
 
+// Layout setup
 
 void reset(void);
 
 // set this for layer changes that need to persist beyond one cycle
 int current_layer_number = 0;
+// this gets reset every cycle
 int *current_layer;
 
 // layout.h must define:
@@ -40,9 +42,9 @@ void activate_row(int row) {
   _delay_us(50);
 };
 
-// TODO: 0,0 never registers
 void scan_row(int row) {
-  // if(((~PINF) & 64) && row == 3) reset();
+  // TODO: fix/test proper reset fn
+  if(((~PINF) & 64) && row == 3) reset();
   unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
   for(int col = 0; col < COL_COUNT; col++) {
     if(col_bits & 1024) record(col, row);
@@ -89,10 +91,9 @@ void pre_invoke_functions() {
 };
 
 void calculate_presses() {
-  int keycode = 0;
   int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
-    keycode = current_layer[presses[i]];
+    int keycode = current_layer[presses[i]];
     if(keycode >= 300) {
       (layer_functions[keycode - 300])();
     } else if(keycode >= 200) {
@@ -109,15 +110,16 @@ void calculate_presses() {
 };
 
 
+// Top level stuff
 
 void init() {
   CPU_PRESCALE(0);
-  DDRD = 255;
-  DDRB = DDRF = 0;
-  PORTB = PORTF = 255;
+  DDRD = 255; // rows
+  DDRB = DDRF = 0; // columns
+  PORTB = PORTF = 255; // activate pullup resistors on inputs
   usb_init();
   while (!usb_configured()) /* wait */ ;
-  _delay_ms(1000);
+  _delay_ms(500);
 };
 
 void clear_keys() {

@@ -42,9 +42,28 @@ keybinding that changes the current layout, simply set this number.
 However, most functions will be called the final pass where each
 keypress is looked up in the currently active layout. That means if
 you have a function that changes the current layout, it needs to run
-sooner. Keycodes between 200 and 300 will trigger functions that run
-on a separate pre-invoke pass before the rest of the keycodes are
-looked up, so this is how layer-changing functions should be defined.
+sooner so it can affect regular keycode lookups. Keycodes between 200
+and 300 will trigger functions that run on a separate pre-invoke pass
+before the rest of the keycodes are looked up, so this is how
+layer-changing functions should be defined.
+
+## How it works
+
+Since the microcontroller has a limited number of pins, the switches
+are wired in a matrix where each has its positive contact connected to
+those in the same row and its negative contact wired in with those
+above and below it. Reading the state of the switches can only happen
+a row at a time: a single row (output) pin is brought low, and all the
+column inputs are read. Any of them that read low are recorded as a
+keypress. Low voltage is used to for pressed keys because each input
+pin has a built-in pullup resistor.
+
+However, because of the electrical properties of switches, it's
+necessary to go through a
+[debouncing](https://en.wikipedia.org/wiki/Switch#Contact_bounce)
+process as the switches settle. This means taking a few scans over the
+matrix and waiting until you get N successive reads of the same state
+before counting any single keypress or release as legitimate.
 
 ## License
 

@@ -11,18 +11,36 @@ int base_layer[KEY_COUNT] = \
   { 20, 26, 8,   21,  23,  0,  28, 24, 12, 18, 19,      \
     4,  22, 7,   9,   10,  0,  11, 13, 14, 15, 51,      \
     29, 27, 6,   25,  5,  104, 17, 16, 54, 55, 56,      \
-    41, 43, 108, 102, 42, 101, 44, 201,  52, 47, 40 };
+    41, 43, 108, 102, 42, 101, 44, 201, 52, 47, 40 };
 
 int fn_layer[KEY_COUNT] = \
   { 108+30, 108+31, 108+45, 108+46, 108 + 49, 0, 75, 36, 37, 38, 108+37, \
     108+32, 108+33, 108+38, 108+39, 53, 0, 78, 33, 34, 35, 108+48,    \
     108 + 34, 108 + 35, 45, 46, 108+53, 104, 49, 30, 31, 32, 108+47,  \
-    200, 108 + 73, 108, 102, 0, 101, 0, 0, 8, 39, 48 };
+    200, 108 + 73, 108, 102, 302, 101, 0, 0, 8, 39, 48 };
 
-int *layers[] = {base_layer, fn_layer};
+// this is for function keys (in the numpad formation) and arrow keys (on wasd)
+
+int bonus_layer[KEY_COUNT] = \
+  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \
+    302, 0, 108, 102, 42, 101, 44, 0, 0, 0, 0 };
+
+int *layers[] = {base_layer, fn_layer, bonus_layer};
 
 void activate_fn() {
   current_layer = layers[1];
 };
 
-void (*layer_functions[])(void) = {reset, activate_fn};
+void toggle_fn() {
+  if(!current_layer_number) {
+    current_layer_number = 2;
+  } else {
+    current_layer_number = 0;
+  };
+};
+
+void (*layer_functions[])(void) = {reset, activate_fn, toggle_fn};
+
+
