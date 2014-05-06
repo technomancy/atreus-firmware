@@ -4,8 +4,10 @@ This is my own firmware for the [Atreus keyboard](https://github.com/technomancy
 
 ## Usage
 
-Install `avr-gcc` and run `make upload`. Designed to run on a Teensy 2
-but could probably be adapted to run on other USB-capable atmega boards.
+Install `gcc-avr` and the
+[teensy loader](http://www.pjrc.com/teensy/loader_cli.html), then run
+`make upload`. Designed to run on a Teensy 2 but could probably be
+adapted to run on other USB-capable atmega boards.
 
 ## Pinout
 
