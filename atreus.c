@@ -4,7 +4,7 @@
 #include <util/delay.h>
 #include "usb_keyboard.h"
 
-#define DEBOUNCE_PASSES 5
+#define DEBOUNCE_PASSES 10
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
 
@@ -23,6 +23,7 @@ int *current_layer;
 // * layers: array of int[KEY_COUNT]
 // * layer_functions: array of void function pointers
 // ... plus any functions included in layer_functions
+// per_cycle void function callback
 #include "layout.h"
 
 int pressed_count = 0;
@@ -88,6 +89,7 @@ void pre_invoke_functions() {
       (layer_functions[keycode - 200])();
     }
   }
+  per_cycle();
 };
 
 void calculate_presses() {

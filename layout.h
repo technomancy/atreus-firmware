@@ -30,8 +30,10 @@ int bonus_layer[KEY_COUNT] =
 
 int *layers[] = {base_layer, fn_layer, bonus_layer};
 
+int fn_decay = 0;
+
 void activate_fn() {
-  current_layer = layers[1];
+  fn_decay = 10;
 };
 
 void toggle_fn() {
@@ -44,4 +46,9 @@ void toggle_fn() {
 
 void (*layer_functions[])(void) = {reset, activate_fn, toggle_fn};
 
-
+void per_cycle() {
+  if(fn_decay) {
+    current_layer = layers[1];
+    fn_decay--;
+  }
+};
