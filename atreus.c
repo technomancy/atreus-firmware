@@ -18,8 +18,11 @@ int current_layer_number = 0;
 // this gets reset every cycle
 int *current_layer;
 
+#define ROW_COUNT 4
+#define COL_COUNT 11
+#define KEY_COUNT ROW_COUNT*COL_COUNT
+
 // layout.h must define:
-// * ROW_COUNT, COL_COUNT, KEY_COUNT
 // * layers: array of int[KEY_COUNT]
 // * layer_functions: array of void function pointers
 // ... plus any functions included in layer_functions
