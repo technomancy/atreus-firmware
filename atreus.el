@@ -48,6 +48,7 @@
     (`("alt" ,keycode) (format "1024 + KEY_%s" keycode))
     (`("gui" ,keycode) (format "2048 + KEY_%s" keycode))
     ("CTRL" "101") ("SHIFT" "102") ("ALT" "104") ("GUI" "108")
+    (`("layer" ,layer) (format "%s" 150 + layer))
     (keycode (format "KEY_%s" keycode))))
 
 (defun atreus-splice-row (row dead)
@@ -128,4 +129,3 @@
     (browse-url-of-file)))
 
 (provide 'atreus) ;; atreus.el ends here
-
