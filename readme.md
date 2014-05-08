@@ -5,9 +5,15 @@ This is my own firmware for the [Atreus keyboard](https://github.com/technomancy
 ## Usage
 
 Install `gcc-avr` and the
-[teensy loader](http://www.pjrc.com/teensy/loader_cli.html), then run
-`make upload`. Designed to run on a Teensy 2 but could probably be
-adapted to run on other USB-capable atmega boards.
+[teensy loader](http://www.pjrc.com/teensy/loader_cli.html).
+
+To use the default layout, `cp layout_qwerty.h layout.h`, then run
+`make upload`. To use another layout, load `atreus.el` in Emacs and
+run `M-x atreus-make`, giving it the layout JSON file you want to use,
+followed by `make upload`.
+
+Designed to run on a Teensy 2 but could probably be adapted to run on
+other USB-capable atmega boards.
 
 ## Pinout
 
@@ -27,9 +33,18 @@ Inputs:
     | pin number    | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 | F4 | F5 | F6 |
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
 
-## Layouts
+## Layouts in JSON
 
-Layouts are arrays of integers. For basic key presses, use the
+See `qwerty.json` for an example. `M-x atreus-make` will compile a
+given JSON file into a `.hex` file for uploading, and `M-x
+atreus-view` will compile JSON into an HTML table and open it in the
+browser.
+
+TODO: describe JSON format more thoroughly.
+
+## Layouts in C
+
+Layouts in C are arrays of integers. For basic key presses, use the
 keycodes defined in `usb_keyboard.h`. For shifted key presses, add 100
 to the code listed there. Layouts can also include references to
 functions to execute. Place a `void` function pointer in the
@@ -66,6 +81,13 @@ necessary to go through a
 process as the switches settle. This means taking a few scans over the
 matrix and waiting until you get N successive reads of the same state
 before counting any single keypress or release as legitimate.
+
+## TODO
+
+* Improve debouncing
+* Support layer toggle bindings
+* Double-duty keys (modifiers when held, insertions on press/release)
+* SVG output of layouts?
 
 ## License
 

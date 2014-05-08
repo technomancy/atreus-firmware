@@ -1,0 +1,13 @@
+[[["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+  ["A", "S", "D", "F", "G", "H", "J", "K", "L", "SEMICOLON"],
+  ["Z", "X", "C", "V", "B", "ALT", "N", "M", "COMMA", "PERIOD", "SLASH"],
+  ["ESC", "TAB", "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "MINUS", "QUOTE", "ENTER"]],
+ [[["shift", "1"], ["shift", "2"], ["shift", "LEFT_BRACE"], ["shift", "RIGHT_BRACE"],
+   ["shift", "BACKSLASH"], "PAGE_UP", "7", "8", "9", ["shift", "8"]],
+  [["shift", "3"], ["shift", "4"], ["shift", "9"], ["shift", "0"],
+  "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "EQUAL"]],
+  [["shift", "5"], ["shift", "6"], "LEFT_BRACE", "RIGHT_BRACE", ["shift", "TILDE"],
+   "ALT", "BACKSLASH", "1", "2", "3", ["shift", "LEFT_BRACE"]],
+  ["reset", ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "PERIOD", "0", "EQUAL"]]]

@@ -99,15 +99,15 @@ void calculate_presses() {
   int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
     int keycode = current_layer[presses[i]];
-    if(keycode >= 300) {
-      (layer_functions[keycode - 300])();
-    } else if(keycode >= 200) {
+    if(keycode >= 110 && keycode < 200) {
+      (layer_functions[keycode - 110])();
+    } else if(keycode >= 200 && keycode < 300) {
       // pre-invoke functions have already been processed
     } else if(keycode > 100 && keycode <= 108) {
       keyboard_modifier_keys |= (keycode - 100);
-    } else if(keycode > 108 && usb_presses < 6) {
-      keyboard_modifier_keys |= KEY_SHIFT;
-      keyboard_keys[usb_presses++] = (keycode - 108);
+    } else if(keycode > 255 && usb_presses < 6) {
+      keyboard_modifier_keys |= (keycode >> 8);
+      keyboard_keys[usb_presses++] = (keycode & 255);
     } else if(usb_presses < 6){
       keyboard_keys[usb_presses++] = keycode;
     };

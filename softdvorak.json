@@ -1,15 +1,30 @@
-{"layer0":
- [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
+[[["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L", "SEMICOLON"],
   ["Z", "X", "C", "V", "B", "ALT", "N", "M", "COMMA", "PERIOD", "SLASH"],
   ["ESC", "TAB", "GUI", "SHIFT", "BACKSPACE", "CTRL",
    "SPACE", "FN", "QUOTE", "LEFT_BRACE", "ENTER"]],
- "layer1":
  [[["shift", "1"], ["shift", "2"], ["shift", "MINUS"], ["shift", "EQUAL"],
    ["shift", "BACKSLASH"], "PAGE_UP", "7", "8", "9", ["shift", "8"]],
   [["shift", "3"], ["shift", "4"], ["shift", "9"], ["shift", "0"],
   "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "RIGHT_BRACE"]],
   [["shift", "5"], ["shift", "6"], "MINUS", "EQUAL", ["shift", "TILDE"],
    "ALT", "BACKSLASH", "1", "2", "3", ["shift", "LEFT_BRACE"]],
-  [["reset"], ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
-   "SPACE", "FN", "PERIOD", "0", "RIGHT_BRACE"]]}
+  ["reset", ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "PERIOD", "0", "RIGHT_BRACE"]]]
+
+/* softdvorak.json
+
+   Rather than implementing dvorak in the keyboard itself, I prefer to
+   have it done in the OS; that way I can fall back to my laptop's
+   internal keyboard without monkeying with keyboard settings. But it
+   requires inverting the dvorak conversion for punctuation in a way
+   that assumes the keycode will be translated into the proper one by the OS.
+
+TODO: add bonus layer:
+int bonus_layer[KEY_COUNT] =
+  { KEY_HOME,  KEY_UP,  KEY_END, 0, 0, 0, 0, KEY_F7, KEY_F8, KEY_F9, KEY_F10,
+    KEY_LEFT, KEY_DOWN, KEY_RIGHT, 0, 0, 0, 0, KEY_F4, KEY_F5, KEY_F6, KEY_F11,
+    KEY_INSERT, KEY_DELETE,  0, 0, 0, 0, KEY_F1, KEY_F2, KEY_F3, KEY_F12,
+    302, 0, 108, 102, 42, 101, 44, 0, 0, 0 };
+
+ */
