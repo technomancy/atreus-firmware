@@ -1,7 +1,7 @@
 [[["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
   ["A", "S", "D", "F", "G", "H", "J", "K", "L", "SEMICOLON"],
   ["Z", "X", "C", "V", "B", "ALT", "N", "M", "COMMA", "PERIOD", "SLASH"],
-  ["ESC", "TAB", "GUI", "SHIFT", "BACKSPACE", "CTRL",
+  ["ESC", ["layer", 2], "GUI", "SHIFT", "BACKSPACE", "CTRL",
    "SPACE", "FN", "QUOTE", "LEFT_BRACE", "ENTER"]],
  [[["shift", "1"], ["shift", "2"], ["shift", "MINUS"], ["shift", "EQUAL"],
    ["shift", "BACKSLASH"], "PAGE_UP", "7", "8", "9", ["shift", "8"]],
@@ -9,8 +9,13 @@
   "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "RIGHT_BRACE"]],
   [["shift", "5"], ["shift", "6"], "MINUS", "EQUAL", ["shift", "TILDE"],
    "ALT", "BACKSLASH", "1", "2", "3", ["shift", "LEFT_BRACE"]],
-  ["reset", ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
-   "SPACE", "FN", "PERIOD", "0", "RIGHT_BRACE"]]]
+  ["TAB", ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "PERIOD", "0", "RIGHT_BRACE"]],
+ [["HOME", "UP", "END", "INSERT", "", "", "F7", "F8", "F9", "F10"],
+  ["LEFT", "DOWN", "RIGHT", "DELETE", "", "", "F4", "F5", "F6", "F11"],
+  ["", "", "", "", "", "ALT", "", "F1", "F2", "F3", "F12"],
+  [["reset"], "", "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", ["layer", 0], "", "", ""]]]
 
 /* softdvorak.json
 
@@ -20,13 +25,4 @@
    requires inverting the dvorak conversion for punctuation in a way
    that assumes the keycode will be translated into the proper one by the OS.
 
-TODO: add bonus layer:
-int bonus_layer[KEY_COUNT] =
-  { KEY_HOME,  KEY_UP,  KEY_END, KEY_INSERT, 0, 0, 0, KEY_F7, KEY_F8, KEY_F9, KEY_F10,
-    KEY_LEFT, KEY_DOWN, KEY_RIGHT, KEY_DELETE, 0, 0, 0, KEY_F4, KEY_F5, KEY_F6, KEY_F11,
-    0, 0,  0, 0, 0, 0, KEY_F1, KEY_F2, KEY_F3, KEY_F12,
-    302, 0, 108, 102, 42, 101, 44, 0, 0, 0 };
-
  */
-
-↑↓←→
