@@ -56,10 +56,11 @@ be used to indicate a keypress which does nothing.
 ## Layouts in C
 
 Layouts in C are arrays of integers. For basic key presses, use the
-keycodes defined in `usb_keyboard.h`. For shifted key presses, add 100
-to the code listed there. Layouts can also include references to
+keycodes defined in `usb_keyboard.h`. For modified key presses, add
+256 to the code listed there for ctrl, 512 for shift, 1024 for alt,
+and 2048 for super/gui. Layouts can also include references to
 functions to execute. Place a `void` function pointer in the
-`layout_functions` array and add 300 to the index of the function, and
+`layout_functions` array and add 110 to the index of the function, and
 that keycode will cause the function to be invoked.
 
 The `layouts` pointer should be set to an array of layouts. Every scan
@@ -71,7 +72,7 @@ However, most functions will be called the final pass where each
 keypress is looked up in the currently active layout. That means if
 you have a function that changes the current layout, it needs to run
 sooner so it can affect regular keycode lookups. Keycodes between 200
-and 300 will trigger functions that run on a separate pre-invoke pass
+and 255 will trigger functions that run on a separate pre-invoke pass
 before the rest of the keycodes are looked up, so this is how
 layer-changing functions should be defined.
 

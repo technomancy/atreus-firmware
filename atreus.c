@@ -101,7 +101,7 @@ void calculate_presses() {
     int keycode = current_layer[presses[i]];
     if(keycode >= 110 && keycode < 136) {
       (layer_functions[keycode - 110])();
-    } else if(keycode >= 200 && keycode < 300) {
+    } else if(keycode >= 200 && keycode < 255) {
       // pre-invoke functions have already been processed
     } else if(keycode >= 136 && keycode < 200) {
       current_layer_number = keycode - 136;
