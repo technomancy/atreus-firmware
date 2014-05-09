@@ -99,12 +99,12 @@ void calculate_presses() {
   int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
     int keycode = current_layer[presses[i]];
-    if(keycode >= 110 && keycode < 150) {
+    if(keycode >= 110 && keycode < 136) {
       (layer_functions[keycode - 110])();
     } else if(keycode >= 200 && keycode < 300) {
       // pre-invoke functions have already been processed
-    } else if(keycode >= 150 && keycode < 200) {
-      current_layer_number = keycode - 150;
+    } else if(keycode >= 136 && keycode < 200) {
+      current_layer_number = keycode - 136;
     } else if(keycode > 100 && keycode <= 108) {
       keyboard_modifier_keys |= (keycode - 100);
     } else if(keycode > 255 && usb_presses < 6) {

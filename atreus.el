@@ -51,7 +51,7 @@
     (`("alt" ,keycode) (format "1024 + KEY_%s" keycode))
     (`("gui" ,keycode) (format "2048 + KEY_%s" keycode))
     ("CTRL" "101") ("SHIFT" "102") ("ALT" "104") ("GUI" "108")
-    (`("layer" ,layer) (format "%s" (+ 150 layer)))
+    (`("layer" ,layer) (format "%s" (+ 136 layer)))
     ("" "0") ; dead key
     (keycode (format "KEY_%s" keycode))))
 

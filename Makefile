@@ -4,8 +4,9 @@ F_CPU=16000000
 
 TARGET=atreus
 
+LAYOUT ?= qwerty
 layout:
-	emacs --batch -l dash.el -l atreus.el --eval "(atreus-make-layout \"qwerty.json\")"
+	emacs --batch -l dash.el -l atreus.el --eval "(atreus-make-layout \"$(LAYOUT).json\")"
 
 build: layout
 	avr-gcc -std=gnu99 -Os -D F_CPU=$(F_CPU)UL -mmcu=$(MCU) -c -o $(TARGET).o $(TARGET).c

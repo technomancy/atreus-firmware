@@ -7,10 +7,7 @@ This is my own firmware for the [Atreus keyboard](https://github.com/technomancy
 Install `gcc-avr` and the
 [teensy loader](http://www.pjrc.com/teensy/loader_cli.html).
 
-To use the default layout, `cp layout_qwerty.h layout.h`, then run
-`make upload`. To use another layout, load `atreus.el` in Emacs and
-run `M-x atreus-make`, giving it the layout JSON file you want to use,
-followed by `make upload`.
+Run `make upload` or `make upload LAYOUT=softdvorak` to use a different layout.
 
 Designed to run on a Teensy 2 but could probably be adapted to run on
 other USB-capable atmega boards.
@@ -35,12 +32,26 @@ Inputs:
 
 ## Layouts in JSON
 
-See `qwerty.json` for an example. `M-x atreus-make` will compile a
-given JSON file into a `.hex` file for uploading, and `M-x
-atreus-view` will compile JSON into an HTML table and open it in the
-browser.
+See `qwerty.json` for an example.
 
-TODO: describe JSON format more thoroughly.
+The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
+atreus-make` will compile a given JSON file into a `.hex` file for
+uploading, and `M-x atreus-view` will compile JSON into an HTML table
+and open it in the browser. The makefile will invoke Emacs to
+precompile the `layout.h` file, but if you just want the default you
+can copy `layout_qwerty.h` to `layout.h` and edit the makefile to skip
+the Emacs invocation.
+
+The layout JSON should simply be a three-dimensional array. At the top
+level, every array element is a layer. You can have up to 64
+layers. Each layer is an array of rows, and each row is an array of
+keycodes. A keycode can either be a keypress (described in
+`usb_keyboard.h`), a keypress with a modifier (like `["shift", "7"]`
+to insert a `&` character), `"fn"` to switch to layer 1 while held, or
+`["layer", 0]` to switch to a given layer beyond while the key is
+being held. It's also advised to include a `["reset"]` key as this is
+used to program updates to the firmware. Finally, an empty string can
+be used to indicate a keypress which does nothing.
 
 ## Layouts in C
 
