@@ -31,6 +31,9 @@
 
 ;;; Code:
 
+(when (< emacs-major-version 24)
+  (error "Requires Emacs 24."))
+
 (require 'dash)
 (require 'json)
 (require 'org-table)
@@ -48,7 +51,8 @@
     (`("alt" ,keycode) (format "1024 + KEY_%s" keycode))
     (`("gui" ,keycode) (format "2048 + KEY_%s" keycode))
     ("CTRL" "101") ("SHIFT" "102") ("ALT" "104") ("GUI" "108")
-    (`("layer" ,layer) (format "%s" 150 + layer))
+    (`("layer" ,layer) (format "%s" (+ 150 layer)))
+    ("" "0") ; dead key
     (keycode (format "KEY_%s" keycode))))
 
 (defun atreus-splice-row (row dead)
@@ -80,15 +84,24 @@
     (insert "};\n\n")
     (insert "#include \"layout_common.h\"\n")))
 
-(defun atreus-make (layout-file)
-  "Compile Atreus firmware from a given JSON layout descriptor."
+(defun atreus-make-layout (layout-file)
+  "Compile Atreus firmware source from a given JSON layout descriptor."
   (interactive (atreus-filename))
   (save-window-excursion
     (find-file "layout.h")
     (delete-region (point-min) (point-max))
     (atreus-insert layout-file)
-    (save-buffer))
-  (compile "make"))
+    (save-buffer)))
+
+(defun atreus-make (layout-file)
+  "Compile Atreus firmware binary from a given JSON layout descriptor.
+
+With the prefix arg, uploads firmware to keyboard."
+  (interactive (atreus-filename))
+  (atreus-make-layout layout-file)
+  (compile (if current-prefix-arg
+               "make upload"
+             "make")))
 
 (defun atreus-key-html (key)
   (replace-regexp-in-string "_" " "
