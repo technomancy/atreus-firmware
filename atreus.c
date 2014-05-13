@@ -22,17 +22,17 @@ int *current_layer;
 #define COL_COUNT 11
 #define KEY_COUNT ROW_COUNT*COL_COUNT
 
+int pressed_count = 0;
+int presses[KEY_COUNT];
+int last_pressed_count = 0;
+int last_presses[KEY_COUNT];
+
 // layout.h must define:
 // * layers: array of int[KEY_COUNT]
 // * layer_functions: array of void function pointers
 // ... plus any functions included in layer_functions
 // per_cycle void function callback
 #include "layout.h"
-
-int pressed_count = 0;
-int presses[KEY_COUNT];
-int last_pressed_count = 0;
-int last_presses[KEY_COUNT];
 
 
 // Matrix scanning logic
@@ -47,8 +47,8 @@ void activate_row(int row) {
 };
 
 void scan_row(int row) {
-  // TODO: fix/test proper reset fn
-  if(((~PINF) & 64) && row == 3) reset();
+  // hard-coded reset safety-hatch for experimentation
+  // if(((~PINF) & 64) && row == 3) reset();
   unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
   for(int col = 0; col < COL_COUNT; col++) {
     if(col_bits & 1024) record(col, row);
@@ -100,17 +100,22 @@ void calculate_presses() {
   for(int i = 0; i < pressed_count; i++) {
     int keycode = current_layer[presses[i]];
     if(keycode >= 110 && keycode < 136) {
+      // regular layout functions
       (layer_functions[keycode - 110])();
     } else if(keycode >= 200 && keycode < 255) {
       // pre-invoke functions have already been processed
     } else if(keycode >= 136 && keycode < 200) {
+      // layer set
       current_layer_number = keycode - 136;
     } else if(keycode > 100 && keycode <= 108) {
+      // modifier
       keyboard_modifier_keys |= (keycode - 100);
     } else if(keycode > 255 && usb_presses < 6) {
+      // modifier plus keypress
       keyboard_modifier_keys |= (keycode >> 8);
       keyboard_keys[usb_presses++] = (keycode & 255);
     } else if(usb_presses < 6){
+      // keypress
       keyboard_keys[usb_presses++] = keycode;
     };
   };

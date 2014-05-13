@@ -12,6 +12,8 @@ Run `make upload` or `make upload LAYOUT=softdvorak` to use a different layout.
 Designed to run on a Teensy 2 but could probably be adapted to run on
 other USB-capable atmega boards.
 
+TODO: document double-duty fn behaviour.
+
 ## Pinout
 
 Outputs:
@@ -50,8 +52,9 @@ keycodes. A keycode can either be a keypress (described in
 to insert a `&` character), `"fn"` to switch to layer 1 while held, or
 `["layer", 0]` to switch to a given layer beyond while the key is
 being held. It's also advised to include a `["reset"]` key as this is
-used to program updates to the firmware. Finally, an empty string can
-be used to indicate a keypress which does nothing.
+used to program updates to the firmware without opening the case to
+hit the hardware reset button. Finally, an empty string can be used to
+indicate a keypress which does nothing.
 
 ## Layouts in C
 
@@ -98,7 +101,6 @@ before counting any single keypress or release as legitimate.
 
 * Improve debouncing
 * Support layer toggle bindings
-* Double-duty keys (modifiers when held, insertions on press/release)
 * SVG output of layouts?
 
 ## License
