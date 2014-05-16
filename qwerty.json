@@ -9,10 +9,10 @@
   "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "EQUAL"]],
   [["shift", "5"], ["shift", "6"], "LEFT_BRACE", "RIGHT_BRACE", ["shift", "TILDE"],
    "ALT", ["shift", "7"], "1", "2", "3", "BACKSLASH"],
-  [["shift", "INSERT"], ["layer", 2], "GUI", "SHIFT", "BACKSPACE", "CTRL",
+  [["function", 2], ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
    "SPACE", "FN", "PERIOD", "0", "EQUAL"]],
- [["HOME", "UP", "END", "INSERT", "", "UP", "F7", "F8", "F9", "F10"],
-  ["LEFT", "DOWN", "RIGHT", "DELETE", "", "DOWN", "F4", "F5", "F6", "F11"],
+ [["HOME", "UP", "END", "INSERT", "PAGE_UP", "UP", "F7", "F8", "F9", "F10"],
+  ["LEFT", "DOWN", "RIGHT", "DELETE", "PAGE_DOWN", "DOWN", "F4", "F5", "F6", "F11"],
   ["", "", "", "", "", "ALT", "", "F1", "F2", "F3", "F12"],
   [["layer", 0], "", "GUI", "SHIFT", "BACKSPACE", "CTRL",
    "SPACE", "FN", "", ["reset"]]]]

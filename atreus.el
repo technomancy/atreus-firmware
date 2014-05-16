@@ -46,6 +46,8 @@
 (defun atreus-key (key)
   (pcase key
     (`("reset") "110") ("FN" "201")
+    (`("pre-function" ,f) (format "%s" (+ 200 f)))
+    (`("function" ,f) (format "%s" (+ 110 f)))
     (`("ctrl" ,keycode) (format "256 + KEY_%s" keycode))
     (`("shift" ,keycode) (format "512 + KEY_%s" keycode))
     (`("alt" ,keycode) (format "1024 + KEY_%s" keycode))
