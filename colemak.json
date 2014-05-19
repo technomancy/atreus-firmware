@@ -1,0 +1,24 @@
+[[["Q", "W", "F", "P", "G", "J", "L", "U", "Y", "SEMICOLON"],
+  ["A", "R", "S", "T", "D", "H", "N", "E", "I", "O"],
+  ["Z", "X", "C", "V", "B", "ALT", "K", "M", "COMMA", "PERIOD", "SLASH"],
+  ["ESC", "TAB", "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "MINUS", "QUOTE", "ENTER"]],
+ [[["shift", "1"], ["shift", "2"], ["shift", "LEFT_BRACE"], ["shift", "RIGHT_BRACE"],
+   ["shift", "BACKSLASH"], "PAGE_UP", "7", "8", "9", ["shift", "8"]],
+  [["shift", "3"], ["shift", "4"], ["shift", "9"], ["shift", "0"],
+  "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "EQUAL"]],
+  [["shift", "5"], ["shift", "6"], "LEFT_BRACE", "RIGHT_BRACE", ["shift", "TILDE"],
+   "ALT", ["shift", "7"], "1", "2", "3", "BACKSLASH"],
+  [["function", 2], ["shift", "INSERT"], "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "PERIOD", "0", "EQUAL"]],
+ [["HOME", "UP", "END", "INSERT", "PAGE_UP", "UP", "F7", "F8", "F9", "F10"],
+  ["LEFT", "DOWN", "RIGHT", "DELETE", "PAGE_DOWN", "DOWN", "F4", "F5", "F6", "F11"],
+  ["", "", "", "", "", "ALT", "", "F1", "F2", "F3", "F12"],
+  [["layer", 0], "", "GUI", "SHIFT", "BACKSPACE", "CTRL",
+   "SPACE", "FN", "", ["reset"]]]]
+
+/* colemak.json
+
+   Colemak layout for Atreus.
+
+*/
