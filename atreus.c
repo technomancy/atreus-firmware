@@ -42,14 +42,14 @@ void record(int col, int row) {
 };
 
 void activate_row(int row) {
-  PORTD = (char)(~(1 << row)) | 32; // leave the LED on
+  PORTB = (char)(~(1 << row)) | 32; // leave the LED on
   _delay_us(50);
 };
 
 void scan_row(int row) {
   // hard-coded reset safety-hatch for experimentation
   // if(((~PINF) & 64) && row == 3) reset();
-  unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
+  unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PIND & 255);
   for(int col = 0; col < COL_COUNT; col++) {
     if(col_bits & 1024) record(col, row);
     col_bits = col_bits << 1;
@@ -126,9 +126,9 @@ void calculate_presses() {
 
 void init() {
   CPU_PRESCALE(0);
-  DDRD = 255; // rows
-  DDRB = DDRF = 0; // columns
-  PORTB = PORTF = 255; // activate pullup resistors on inputs
+  DDRB = 255; // rows
+  DDRD = DDRF = 0; // columns
+  PORTD = PORTF = 255; // activate pullup resistors on inputs
   usb_init();
   while (!usb_configured()) /* wait */ ;
   _delay_ms(500);
