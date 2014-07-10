@@ -35,7 +35,7 @@
 
 // You can change these to give your code its own name.
 #define STR_MANUFACTURER    L"Technomancy"
-#define STR_PRODUCT         L"Orestes"
+#define STR_PRODUCT         L"Atreus"
 
 
 // Mac OS-X and Linux automatically load the correct drivers.  On
