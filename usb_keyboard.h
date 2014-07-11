@@ -162,7 +162,7 @@ extern volatile uint8_t keyboard_leds;
 #define KEYBOARD_LOCKING_NUM_LOCK      131
 #define KEYBOARD_LOCKING_SCROLL_LOCK   132
 #define KEYPAD_COMMA                   133
-#define KEYPAD_EQUAL                   134
+#define KEYPAD_EQUAL_SIGN              134
 #define KEYBOARD_INTERNATIONAL1        135
 #define KEYBOARD_INTERNATIONAL2        136
 #define KEYBOARD_INTERNATIONAL3        137

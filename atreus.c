@@ -27,6 +27,11 @@ int presses[KEY_COUNT];
 int last_pressed_count = 0;
 int last_presses[KEY_COUNT];
 
+#define CTRL(key)   256 + (key)
+#define SHIFT(key)  512 + (key)
+#define ALT(key)   1024 + (key)
+#define GUI(key)   2048 + (key)
+
 // layout.h must define:
 // * layers: array of int[KEY_COUNT]
 // * layer_functions: array of void function pointers
