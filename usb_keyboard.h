@@ -250,6 +250,10 @@ extern volatile uint8_t keyboard_leds;
 #define KEYBOARD_RIGHT_ALT             230
 #define KEYBOARD_RIGHT_GUI             231
 
+#define USB_MIN_MODIFIER KEYBOARD_LEFT_CTRL
+#define USB_MAX_MODIFIER KEYBOARD_RIGHT_GUI
+
+#define USB_MAX_KEY KEYBOARD_RIGHT_GUI
 
 // Everything below this point is only intended for usb_serial.c
 #ifdef USB_SERIAL_PRIVATE_INCLUDE
