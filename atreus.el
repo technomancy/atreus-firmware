@@ -45,15 +45,18 @@
 
 (defun atreus-key (key)
   (pcase key
-    (`("reset") "110") ("FN" "201")
-    (`("pre-function" ,f) (format "%s" (+ 200 f)))
-    (`("function" ,f) (format "%s" (+ 110 f)))
-    (`("ctrl" ,keycode) (format "256 + KEY_%s" keycode))
-    (`("shift" ,keycode) (format "512 + KEY_%s" keycode))
-    (`("alt" ,keycode) (format "1024 + KEY_%s" keycode))
-    (`("gui" ,keycode) (format "2048 + KEY_%s" keycode))
-    ("CTRL" "101") ("SHIFT" "102") ("ALT" "104") ("GUI" "108")
-    (`("layer" ,layer) (format "%s" (+ 136 layer)))
+    (`("reset") "FUNCTION(0)") ("FN" "PRE_FUNCTION(1)")
+    (`("pre-function" ,f) (format "PRE_FUNCTION(%s)" f))
+    (`("function" ,f) (format "FUNCTION(%s)" f))
+    (`("ctrl" ,keycode) (format "CTRL(KEY_%s)" keycode))
+    (`("shift" ,keycode) (format "SHIFT(KEY_%s)" keycode))
+    (`("alt" ,keycode) (format "ALT(KEY_%s)" keycode))
+    (`("gui" ,keycode) (format "GUI(KEY_%s)" keycode))
+    ("CTRL" "KEYBOARD_LEFT_CTRL")
+    ("SHIFT" "KEYBOARD_LEFT_SHIFT")
+    ("ALT"   "KEYBOARD_LEFT_ALT")
+    ("GUI"   "KEYBOARD_LEFT_GUI")
+    (`("layer" ,layer) (format "LAYER(%s)" layer))
     ("" "0") ; dead key
     (keycode (format "KEY_%s" keycode))))
 
