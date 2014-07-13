@@ -27,13 +27,15 @@ int presses[KEY_COUNT];
 int last_pressed_count = 0;
 int last_presses[KEY_COUNT];
 
-#define CTRL(key)   (0x100 + (key))
-#define SHIFT(key)  (0x200 + (key))
-#define ALT(key)    (0x400 + (key))
-#define GUI(key)    (0x800 + (key))
+#define CTRL(key)   (0x1000 + (key))
+#define SHIFT(key)  (0x2000 + (key))
+#define ALT(key)    (0x4000 + (key))
+#define GUI(key)    (0x8000 + (key))
 
-#define LAYERS 16
-#define FUNCTIONS 4 /* ((255 - USB_MAX_KEY - LAYERS) / 2) */
+/* LAYERS and FUNCTIONS are pessimistic, there's 4095 unused numbers between
+ * the USB_MAX_KEY and the CTRL mask bit.  */
+#define LAYERS 64
+#define FUNCTIONS 255
 
 #define MIN_LAYER         (USB_MAX_KEY      + 1)
 #define MAX_LAYER         (USB_MAX_KEY      + LAYERS)
