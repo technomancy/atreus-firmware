@@ -127,11 +127,6 @@ void calculate_presses() {
       // pre-invoke functions have already been processed
     } else if(keycode >= MIN_LAYER && keycode <= MAX_LAYER) {
       // layer set
-      if((keycode - MIN_LAYER) != 1) {
-        keyboard_keys[0] = KEY_1 + keycode - MIN_LAYER;
-        usb_keyboard_send();
-        clear_keys();
-      }
       current_layer_number = keycode - MIN_LAYER;
     } else if(keycode == KEYBOARD_LEFT_CTRL) {
       keyboard_modifier_keys |= KEY_LEFT_CTRL;
