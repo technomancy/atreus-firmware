@@ -59,23 +59,24 @@ indicate a keypress which does nothing.
 ## Layouts in C
 
 Layouts in C are arrays of integers. For basic key presses, use the
-keycodes defined in `usb_keyboard.h`. For modified key presses, add
-256 to the code listed there for ctrl, 512 for shift, 1024 for alt,
-and 2048 for super/gui. Layouts can also include references to
-functions to execute. Place a `void` function pointer in the
-`layout_functions` array and add 110 to the index of the function, and
-that keycode will cause the function to be invoked.
+keycodes defined in `usb_keyboard.h`. For modified key presses use the
+`CTRL()`, `SHIFT()`, `ALT()` and `GUI()` macros from atreus.c. These
+may be stacked for holding down multiple modifiers together. Layouts
+can also include references to functions to execute. Place a `void`
+function pointer in the `layout_functions` array and use the
+`FUNCTION()` macro providing the index of the function, and that
+keypress will cause the function to be invoked.
 
 The `layouts` pointer should be set to an array of layouts. Every scan
 through the keyboard matrix will set the current layout to the
 `current_layout_number`th element of the `layouts` array. To make a
-keybinding that changes the current layout, simply set this number.
+keybinding that changes the current layout use the `LAYER()` macro.
 
 However, most functions will be called the final pass where each
 keypress is looked up in the currently active layout. That means if
 you have a function that changes the current layout, it needs to run
-sooner so it can affect regular keycode lookups. Keycodes between 200
-and 255 will trigger functions that run on a separate pre-invoke pass
+sooner so it can affect regular keycode lookups. The `PRE_FUNCTION()`
+macro will trigger functions that run on a separate pre-invoke pass
 before the rest of the keycodes are looked up, so this is how
 layer-changing functions should be defined.
 
