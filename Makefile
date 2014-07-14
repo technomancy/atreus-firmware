@@ -5,7 +5,10 @@ F_CPU=16000000
 TARGET=atreus
 
 LAYOUT ?= qwerty
-layout:
+
+layout: layout.h
+
+layout.h: atreus.el $(LAYOUT).json
 	emacs --batch -l dash.el -l atreus.el --eval "(atreus-make-layout \"$(LAYOUT).json\")"
 
 build: layout

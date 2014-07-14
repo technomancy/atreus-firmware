@@ -27,6 +27,27 @@ int presses[KEY_COUNT];
 int last_pressed_count = 0;
 int last_presses[KEY_COUNT];
 
+#define CTRL(key)   (0x1000 + (key))
+#define SHIFT(key)  (0x2000 + (key))
+#define ALT(key)    (0x4000 + (key))
+#define GUI(key)    (0x8000 + (key))
+
+/* LAYERS and FUNCTIONS are pessimistic, there's 4095 unused numbers between
+ * the USB_MAX_KEY and the CTRL mask bit.  */
+#define LAYERS 64
+#define FUNCTIONS 255
+
+#define MIN_LAYER         (USB_MAX_KEY      + 1)
+#define MAX_LAYER         (USB_MAX_KEY      + LAYERS)
+#define MIN_FUNCTION      (MAX_LAYER        + 1)
+#define MAX_FUNCTION      (MAX_LAYER        + FUNCTIONS)
+#define MIN_PRE_FUNCTION  (MAX_FUNCTION     + 1)
+#define MAX_PRE_FUNCTION  (MAX_FUNCTION     + FUNCTIONS)
+
+#define LAYER(layer)          (MIN_LAYER        + (layer))
+#define FUNCTION(number)      (MIN_FUNCTION     + (number))
+#define PRE_FUNCTION(number)  (MIN_PRE_FUNCTION + (number))
+
 // layout.h must define:
 // * layers: array of int[KEY_COUNT]
 // * layer_functions: array of void function pointers
@@ -88,8 +109,8 @@ void debounce(int passes_remaining) {
 void pre_invoke_functions() {
   for(int i = 0; i < pressed_count; i++) {
     int keycode = current_layer[presses[i]];
-    if(keycode >= 200 && keycode < 300) {
-      (layer_functions[keycode - 200])();
+    if(keycode >= MIN_PRE_FUNCTION && keycode <= MAX_PRE_FUNCTION) {
+      (layer_functions[keycode - MIN_PRE_FUNCTION])();
     }
   }
   per_cycle();
@@ -99,17 +120,30 @@ void calculate_presses() {
   int usb_presses = 0;
   for(int i = 0; i < pressed_count; i++) {
     int keycode = current_layer[presses[i]];
-    if(keycode >= 110 && keycode < 136) {
+    if(keycode >= MIN_FUNCTION && keycode <= MAX_FUNCTION) {
       // regular layout functions
-      (layer_functions[keycode - 110])();
-    } else if(keycode >= 200 && keycode < 255) {
+      (layer_functions[keycode - MIN_FUNCTION])();
+    } else if(keycode >= MIN_PRE_FUNCTION && keycode <= MAX_PRE_FUNCTION) {
       // pre-invoke functions have already been processed
-    } else if(keycode >= 136 && keycode < 200) {
+    } else if(keycode >= MIN_LAYER && keycode <= MAX_LAYER) {
       // layer set
-      current_layer_number = keycode - 136;
-    } else if(keycode > 100 && keycode <= 108) {
-      // modifier
-      keyboard_modifier_keys |= (keycode - 100);
+      current_layer_number = keycode - MIN_LAYER;
+    } else if(keycode == KEYBOARD_LEFT_CTRL) {
+      keyboard_modifier_keys |= KEY_LEFT_CTRL;
+    } else if(keycode == KEYBOARD_RIGHT_CTRL) {
+      keyboard_modifier_keys |= KEY_RIGHT_CTRL;
+    } else if(keycode == KEYBOARD_LEFT_SHIFT) {
+      keyboard_modifier_keys |= KEY_LEFT_SHIFT;
+    } else if(keycode == KEYBOARD_RIGHT_SHIFT) {
+      keyboard_modifier_keys |= KEY_RIGHT_SHIFT;
+    } else if(keycode == KEYBOARD_LEFT_ALT) {
+      keyboard_modifier_keys |= KEY_LEFT_ALT;
+    } else if(keycode == KEYBOARD_RIGHT_ALT) {
+      keyboard_modifier_keys |= KEY_RIGHT_ALT;
+    } else if(keycode == KEYBOARD_LEFT_GUI) {
+      keyboard_modifier_keys |= KEY_LEFT_GUI;
+    } else if(keycode == KEYBOARD_RIGHT_GUI) {
+      keyboard_modifier_keys |= KEY_RIGHT_GUI;
     } else if(keycode > 255 && usb_presses < 6) {
       // modifier plus keypress
       keyboard_modifier_keys |= (keycode >> 8);
