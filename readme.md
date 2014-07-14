@@ -7,12 +7,13 @@ This is my own firmware for the [Atreus keyboard](https://github.com/technomancy
 Install `gcc-avr` and the
 [teensy loader](http://www.pjrc.com/teensy/loader_cli.html).
 
-Run `make upload` or `make upload LAYOUT=softdvorak` to use a different layout.
+Run `make upload` with the keyboard plugged in, and then hit the reset button.
+
+To use another C layout, copy it to `layout.h`. To use a JSON layout,
+run `make jsonlayout LAYOUT=softdvorak`.
 
 Designed to run on a Teensy 2 but could probably be adapted to run on
 other USB-capable atmega boards.
-
-TODO: document double-duty fn behaviour.
 
 ## Pinout
 
@@ -36,14 +37,6 @@ Inputs:
 
 See `qwerty.json` for an example.
 
-The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
-atreus-make` will compile a given JSON file into a `.hex` file for
-uploading, and `M-x atreus-view` will compile JSON into an HTML table
-and open it in the browser. The makefile will invoke Emacs to
-precompile the `layout.h` file, but if you just want the default you
-can copy `layout_qwerty.h` to `layout.h` and edit the makefile to skip
-the Emacs invocation.
-
 The layout JSON should simply be a three-dimensional array. At the top
 level, every array element is a layer. You can have up to 64
 layers. Each layer is an array of rows, and each row is an array of
@@ -55,6 +48,12 @@ being held. It's also advised to include a `["reset"]` key as this is
 used to program updates to the firmware without opening the case to
 hit the hardware reset button. Finally, an empty string can be used to
 indicate a keypress which does nothing.
+
+The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
+atreus-make` will compile a given JSON file into a `.hex` file for
+uploading, and `M-x atreus-view` will compile JSON into an HTML table
+and open it in the browser. But the `jsonlayout` makefile target
+automates this.
 
 ## Layouts in C
 
@@ -106,6 +105,6 @@ before counting any single keypress or release as legitimate.
 
 ## License
 
-Copyright © 2014 Phil Hagelberg
+Copyright © 2014 Phil Hagelberg and contributors
 
 Released under the [GNU GPL version 3](https://www.gnu.org/licenses/gpl.html).
