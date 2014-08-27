@@ -111,7 +111,7 @@ With the prefix arg, uploads firmware to keyboard."
 (defun atreus-key-html (key)
   (replace-regexp-in-string "_" " "
                             (if (listp key)
-                                (concat (car key) "+" (cadr key))
+                                (concat (car key) "+" (format "%s" (cadr key)))
                               key)))
 
 (defun atreus-splice-layer (rows dead)
@@ -130,7 +130,7 @@ With the prefix arg, uploads firmware to keyboard."
   (let* ((json-array-type 'list)
          (layout (json-read-file layout-file))
          (layout-name (file-name-base layout-file))
-         (layers (-interpose '(hline) (-map 'atreus-html-layer ll)))
+         (layers (-interpose '(hline) (-map 'atreus-html-layer layout)))
          (org-export-highlight-first-table-line nil))
     (insert "<h2>" layout-name "</h2>\n\n")
             (insert (orgtbl-to-html (apply 'append layers) nil))
