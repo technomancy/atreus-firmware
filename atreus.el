@@ -108,11 +108,39 @@ With the prefix arg, uploads firmware to keyboard."
                "make upload"
              "make")))
 
+(defun convert-key-name (key)
+  (pcase key
+    (`("shift" "1") "!")
+    (`("shift" "2") "@")
+    (`("shift" "3") "#")
+    (`("shift" "4") "$")
+    (`("shift" "5") "%")
+    (`("shift" "6") "^")
+    (`("shift" "7") "&")
+    (`("shift" "8") "*")
+    (`("shift" "9") "(")
+    (`("shift" "0") ")")
+    (`("shift" "EQUAL") "+")
+    (`("shift" "LEFT_BRACE") "{")
+    (`("shift" "RIGHT_BRACE") "}")
+    ("GUI" "SUPER")
+    ("LEFT_BRACE" "[")
+    ("RIGHT_BRACE" "]")
+    ("TILDE" "`")
+    (`("shift" "TILDE") "~")
+    ("BACKSLASH" "\\")
+    (`("shift" "BACKSLASH") "PIPE") ;; org mode uses | as table cell delimiter
+    (`("function" 2) "L2")
+    (`("shift" "INSERT") "INSERT")
+    (`("layer" 0) "L0")
+    (`("reset") "reset")
+    ("" "") ; empty key
+    (key (if (listp key)
+	     (concat (car key) "+" (format "%s" (cadr key)))
+	   key))))
+
 (defun atreus-key-html (key)
-  (replace-regexp-in-string "_" " "
-                            (if (listp key)
-                                (concat (car key) "+" (format "%s" (cadr key)))
-                              key)))
+  (replace-regexp-in-string "_" " " (convert-key-name key)))
 
 (defun atreus-splice-layer (rows dead)
   (let ((middles (list (nth 5 (nth 2 rows))
