@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+debug=1
+#debug=0  #uncomment this line for debugging output
+
 usage="Converts a json atreus layout into a html document with svg enclosed.
 
 Usage: atreus-layout-to-svg.sh mylayout.json
@@ -60,15 +63,22 @@ function rendercharacters {
   -e 's/SLASH/\\\//'
 }
 
+function debuglog {
+  if [ $debug -eq 1 ]; then
+    echo "$1"
+  fi
+}
+
 layoutfile=$1
 layercount=$(./remccoms3.sed $layoutfile | jq length )
 htmlfile="$layoutfile.html"
-cat "" > "$htmlfile"
+echo "" > "$htmlfile"
 
-echo "layercount = $layercount"
+#echo "layercount = $layercount"
+debuglog "layercount = $layercount"
 for i in $(seq 0 $((layercount - 1)))
 do
-  echo "layer $i"
+  debuglog "layer $i"
   #Join the 4 rows together into 1 array
   layer=$(./remccoms3.sed $layoutfile | jq .[$i] | jq '.[0] + .[1] + .[2] + .[3]')
 
@@ -81,7 +91,7 @@ do
   do
     key=$(echo "$layer" | jq -c -r .["$j"])
     key=$(rendercharacters "$key")
-    echo "key $j = $key"
+    debuglog "key $j = $key"
     sed -i "" "s/>$j</>$key</" "$layerfile"
   done
   cat "$layerfile" >> "$htmlfile"
