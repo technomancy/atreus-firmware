@@ -143,8 +143,8 @@ With the prefix arg, uploads firmware to keyboard."
   (replace-regexp-in-string "_" " " (convert-key-name key)))
 
 (defun atreus-splice-layer (rows dead)
-  (let ((middles (list (nth 5 (nth 2 rows))
-                       (nth 5 (nth 3 rows)))))
+  (let ((middles (list (nth 5 (nth 3 rows))
+                       (nth 5 (nth 2 rows)))))
     (list (atreus-splice-row (nth 0 rows) dead)
           (atreus-splice-row (nth 1 rows) dead)
           (atreus-splice-row (nth 2 rows) dead)
