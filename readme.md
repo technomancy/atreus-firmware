@@ -56,7 +56,8 @@ and open it in the browser. But the `jsonlayout` makefile target
 automates this.
 Alternatively there is a script `atreus-layout-to-svg.sh` that will
 compile the json into HTML document with embedded SVG layouts. The
-`jsonlayout` makefile target also automates this.
+`jsonlayout` makefile target also automates this. 
+(`atreus-layout-to-svg.sh` relies on sed and jq)
 
 ## Layouts in C
 
