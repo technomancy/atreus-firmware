@@ -24,6 +24,7 @@ upload: $(TARGET).hex
 # Build a keyboard layout from a JSON description.
 jsonlayout: atreus.el $(LAYOUT).json
 	emacs --batch -l dash.el -l atreus.el --eval "(atreus-make-layout \"$(LAYOUT).json\")"
+	./atreus-layout-to-svg.sh $(LAYOUT).json
 
 # remove build files
 clean:

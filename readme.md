@@ -54,6 +54,9 @@ atreus-make` will compile a given JSON file into a `.hex` file for
 uploading, and `M-x atreus-view` will compile JSON into an HTML table
 and open it in the browser. But the `jsonlayout` makefile target
 automates this.
+Alternatively there is a script `atreus-layout-to-svg.sh` that will
+compile the json into HTML document with embedded SVG layouts. The
+`jsonlayout` makefile target also automates this.
 
 ## Layouts in C
 
