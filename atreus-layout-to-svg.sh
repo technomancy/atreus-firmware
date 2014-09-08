@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-debug=1
-#debug=0  #uncomment this line for debugging output
+debug=0
+#debug=1  #uncomment this line for debugging output
 
 usage="Converts a json atreus layout into a html document with svg enclosed.
 
@@ -13,7 +13,7 @@ argc=$#
 if [ $argc -ne 1 ]; then
   echo "$usage"
   exit
-fi 
+fi
 
 function rendercharacters {
   # These replacements must come in a certain order or they clobber each other.
@@ -72,7 +72,9 @@ function debuglog {
 layoutfile=$1
 layercount=$(./remccoms3.sed $layoutfile | jq length )
 htmlfile="$layoutfile.html"
-echo "" > "$htmlfile"
+if [ -e "$htmlfile" ]; then
+  rm "$htmlfile"
+fi
 
 #echo "layercount = $layercount"
 debuglog "layercount = $layercount"
@@ -92,12 +94,11 @@ do
     key=$(echo "$layer" | jq -c -r .["$j"])
     key=$(rendercharacters "$key")
     debuglog "key $j = $key"
-    sed -i "" "s/>$j</>$key</" "$layerfile"
+    sed -i "" "s/>$((j + 1))</>$key</" "$layerfile"
   done
   cat "$layerfile" >> "$htmlfile"
   rm "$layerfile"
 done
-
 
 
 
