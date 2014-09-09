@@ -105,7 +105,6 @@ before counting any single keypress or release as legitimate.
 
 * Improve debouncing
 * Support layer toggle bindings
-* SVG output of layouts?
 
 ## License
 
