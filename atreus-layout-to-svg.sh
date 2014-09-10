@@ -90,13 +90,14 @@ do
   layerfile="$layoutfile.layer$i.svg"
   cp atreus-layout.svg "$layerfile"
 
-  sed -i "" "s/>Layer 0</>Layer $i</" "$layerfile"
+  sed -i "" -e "s/>Layer 0</>Layer $i</" "$layerfile"
   for j in {0..41}
   do
     key=$(echo "$layer" | jq -c -r .["$j"])
     key=$(rendercharacters "$key")
     debuglog "key $j = $key"
-    sed -i "" "s/>$((j + 1))</>$key</" "$layerfile"
+    #sed -i "" -e "s/>$((j + 1))</>$key</" "$layerfile"
+    cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
   done
   cat "$layerfile" >> "$htmlfile"
   rm "$layerfile"
