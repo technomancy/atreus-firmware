@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 debug=0
-#debug=1  #uncomment this line for debugging output
+debug=1  #uncomment this line for debugging output
 
 usage="Converts a json atreus layout into a html document with svg enclosed.
 
@@ -70,7 +70,8 @@ function debuglog {
 }
 
 layoutfile=$1
-layercount=$(./remccoms3.sed $layoutfile | jq length )
+#layercount=$(./remccoms3.sed $layoutfile | jq length )
+layercount=$(sed -nf remccoms3.sed $layoutfile | jq length )
 htmlfile="$layoutfile.html"
 if [ -e "$htmlfile" ]; then
   rm "$htmlfile"
@@ -82,7 +83,8 @@ for i in $(seq 0 $((layercount - 1)))
 do
   debuglog "layer $i"
   #Join the 4 rows together into 1 array
-  layer=$(./remccoms3.sed $layoutfile | jq .[$i] | jq '.[0] + .[1] + .[2] + .[3]')
+  #layer=$(./remccoms3.sed $layoutfile | jq .[$i] | jq '.[0] + .[1] + .[2] + .[3]')
+  layer=$(sed -nf remccoms3.sed $layoutfile | jq .[$i] | jq '.[0] + .[1] + .[2] + .[3]')
 
   #Create this layer's svg file
   layerfile="$layoutfile.layer$i.svg"
