@@ -10,7 +10,7 @@ Install `gcc-avr` and the
 Run `make upload` with the keyboard plugged in, and then hit the reset button.
 
 To use another C layout, copy it to `layout.h`. To use a JSON layout,
-run `make jsonlayout LAYOUT=softdvorak`.
+run `make jsonlayout LAYOUT=softdvorak` and it will be written to `layout.h`.
 
 Designed to run on a Teensy 2 but could probably be adapted to run on
 other USB-capable atmega boards.
@@ -63,7 +63,7 @@ compile the json into HTML document with embedded SVG layouts. The
 
 Layouts in C are arrays of integers. For basic key presses, use the
 keycodes defined in `usb_keyboard.h`. For modified key presses use the
-`CTRL()`, `SHIFT()`, `ALT()` and `GUI()` macros from atreus.c. These
+`CTRL()`, `SHIFT()`, `ALT()` and `GUI()` macros from `atreus.c`. These
 may be stacked for holding down multiple modifiers together. Layouts
 can also include references to functions to execute. Place a `void`
 function pointer in the `layout_functions` array and use the
@@ -81,7 +81,9 @@ you have a function that changes the current layout, it needs to run
 sooner so it can affect regular keycode lookups. The `PRE_FUNCTION()`
 macro will trigger functions that run on a separate pre-invoke pass
 before the rest of the keycodes are looked up, so this is how
-layer-changing functions should be defined.
+layer-changing functions should be defined. There is also a
+`per_cycle` function you can define which will run once per completed
+scan.
 
 ## How it works
 
