@@ -36,7 +36,7 @@ function rendercharacters {
   -e 's/shift4/\$/' \
   -e 's/shift5/%/' \
   -e 's/shift6/\^/' \
-  -e 's/shift7/&/' \
+  -e 's/shift7/\\\&/' \
   -e 's/shift8/*/' \
   -e 's/shift9/(/' \
   -e 's/shift0/)/' \
