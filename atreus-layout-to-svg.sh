@@ -9,6 +9,14 @@ Usage: atreus-layout-to-svg.sh mylayout.json
 
 Output: Creates file: mylayout-svg.html"
 
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='Linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='Darwin'
+fi
+
 argc=$#
 if [ $argc -ne 1 ]; then
   echo "$usage"
@@ -96,8 +104,13 @@ do
     key=$(echo "$layer" | jq -c -r .["$j"])
     key=$(rendercharacters "$key")
     debuglog "key $j = $key"
-    #sed -i "" -e "s/>$((j + 1))</>$key</" "$layerfile"
-    cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
+    #This OS check is dirty but works for now.  My bash-fu is weak
+    if [[ "$platform" == 'Linux' ]]; then
+      #cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
+      sed -i -e "s/>$((j + 1))</>$key</" "$layerfile"
+    elif [[ "$platform" == 'Darwin' ]]; then
+      sed -i "" -e "s/>$((j + 1))</>$key</" "$layerfile"
+    fi
   done
   cat "$layerfile" >> "$htmlfile"
   rm "$layerfile"
