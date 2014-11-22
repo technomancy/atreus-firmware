@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <avr/io.h>
+#include <avr/wdt.h>
 #include <string.h>
 #include <util/delay.h>
 #include "usb_keyboard.h"
@@ -21,6 +22,15 @@ int *current_layer;
 #define ROW_COUNT 4
 #define COL_COUNT 11
 #define KEY_COUNT ROW_COUNT*COL_COUNT
+
+int rows[ROW_COUNT] = {0, 1, 3, 2};
+char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
+                               &PIND, \
+                               &PINE, &PINB, &PINB, &PINC, &PIND};
+int col_pins[COL_COUNT] = {7, 6, 7, 6, 6, 4, 6, 4, 5, 6, 7};
+
+// b7 b6 f7 f6 b6
+// e6 b4 b5 c6 d7
 
 int pressed_count = 0;
 int presses[KEY_COUNT];
@@ -63,17 +73,16 @@ void record(int col, int row) {
 };
 
 void activate_row(int row) {
-  PORTD = (char)(~(1 << row)) | 32; // leave the LED on
+  PORTD = (char)(~(1 << rows[row])) | 0x20; // leave the LED on
   _delay_us(50);
 };
 
 void scan_row(int row) {
-  // hard-coded reset safety-hatch for experimentation
-  // if(((~PINF) & 64) && row == 3) reset();
-  unsigned int col_bits = ((~PINF << 4) & (1024 | 512 | 256)) | (~PINB & 255);
+  if(((~PINB) & 8) && row == 3) reset();
   for(int col = 0; col < COL_COUNT; col++) {
-    if(col_bits & 1024) record(col, row);
-    col_bits = col_bits << 1;
+    if(~(*(col_ports[col])) & (1 << col_pins[col])) {
+      record(col, row);
+    }
   }
 };
 
@@ -160,9 +169,10 @@ void calculate_presses() {
 
 void init() {
   CPU_PRESCALE(0);
-  DDRD = 255; // rows
-  DDRB = DDRF = 0; // columns
-  PORTB = PORTF = 255; // activate pullup resistors on inputs
+  DDRB = DDRC = DDRE = DDRF = 0; // columns
+  PORTB = PORTC = PORTE = PORTF = 255; // activate pullup resistors on inputs
+  DDRD = 15; // rows (1 2 4 8) high and columns (16 32 64 128) low
+  PORTD = 15;
   usb_init();
   while (!usb_configured()) /* wait */ ;
   _delay_ms(500);
@@ -194,5 +204,6 @@ void reset(void) {
   TIMSK0 = 0; TIMSK1 = 0; TIMSK3 = 0; TIMSK4 = 0; UCSR1B = 0; TWCR = 0;
   DDRB = 0; DDRC = 0; DDRD = 0; DDRE = 0; DDRF = 0; TWCR = 0;
   PORTB = 0; PORTC = 0; PORTD = 0; PORTE = 0; PORTF = 0;
-  asm volatile("jmp 0x7E00");
+  *(uint16_t *)0x0800 = 0x7777;
+  wdt_enable(WDTO_120MS);
 };

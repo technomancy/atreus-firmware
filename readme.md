@@ -1,13 +1,33 @@
 # Atreus Firmware
 
-This is my own firmware for the [Atreus keyboard](https://github.com/technomancy/atreus) I designed and built.
+This is the firmware for the [Atreus keyboard](https://github.com/technomancy/atreus).
+
+This branch is specific to the Atreus variant that uses the
+[A-Star Micro](http://www.pololu.com/product/3101). Earlier versions
+used the [Teensy 2](http://pjrc.com/store/teensy.html); these should
+use the `teensy2` branch of this repository.
 
 ## Usage
 
-Install `gcc-avr` and the
-[teensy loader](http://www.pjrc.com/teensy/loader_cli.html).
+Install `gcc-avr` and [avrdude](http://www.nongnu.org/avrdude/).
 
-Run `make upload` with the keyboard plugged in, and then hit the reset button.
+Run `make upload` with the keyboard plugged in, and then activate the bootloader.
+
+If you have never
+[uploaded the firmware before](http://www.pololu.com/docs/0J61/5.3),
+you will have to connect the `RST` pin to ground twice in under a
+second to jump to the bootloader. (This requires opening the case.)
+For older models, `RST` and ground are exposed with hookup wire poking
+out of the bottom of the board, but for newer models they are the
+sixth and seventh pin on the right-side row of microcontroller pins.
+
+If you've already got the firmware on the controller, you should have
+a button bound to reset; typically this is activated by jumping to
+layer 2 (`fn`+`ESC`) and then hitting enter.
+
+If you are hacking the lower-level logic of the firmware, the reset
+key might not be reachable (due to bugs in layer functionality, etc)
+and you will have to initiate a manual reset.
 
 To use another C layout, copy it to `layout.h`. To use a JSON layout,
 run `make jsonlayout LAYOUT=softdvorak` and it will be written to `layout.h`.
@@ -17,12 +37,15 @@ other USB-capable atmega boards.
 
 ## Pinout
 
+This is the pinout for the PCB-based Atreus using an A-Star
+microcontroller. The Teensy 2 variants use a different pinout.
+
 Outputs:
 
     |------------+----+----+----+----|
     | row number |  0 |  1 |  2 |  3 |
     |------------+----+----+----+----|
-    | pin number | D0 | D1 | D2 | D3 |
+    | pin number | D0 | D1 | D3 | D2 |
     |------------+----+----+----+----|
 
 Inputs:
@@ -30,7 +53,7 @@ Inputs:
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
     | column number |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 |
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
-    | pin number    | B0 | B1 | B2 | B3 | B4 | B5 | B6 | B7 | F4 | F5 | F6 |
+    | pin number    | B7 | B6 | F7 | F6 | B6 | D4 | E6 | B4 | B5 | C6 | D7 |
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
 
 ## Layouts in JSON
@@ -105,7 +128,6 @@ before counting any single keypress or release as legitimate.
 
 ## TODO
 
-* Improve debouncing
 * Support layer toggle bindings
 
 ## License

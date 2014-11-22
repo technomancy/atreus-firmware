@@ -9,6 +9,8 @@ ifneq ($(LAYOUT), qwerty)
 LAYOUT_DEPENDS=jsonlayout
 endif
 
+USB_DEVICE ?= /dev/ttyACM0
+
 # Build your keyboard layout
 #
 #   make build LAYOUT=softdvorak
@@ -19,7 +21,7 @@ build: $(TARGET).hex
 #
 #   make upload LAYOUT=softdvorak
 upload: $(TARGET).hex
-	teensy_loader_cli -w -mmcu=$(MCU) $(TARGET).hex
+	avrdude -p $(MCU) -c avr109 -U flash:w:$(TARGET).hex -P $(USB_DEVICE)
 
 # Build a keyboard layout from a JSON description.
 jsonlayout: atreus.el $(LAYOUT).json
