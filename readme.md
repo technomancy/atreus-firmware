@@ -11,29 +11,29 @@ use the `teensy2` branch of this repository.
 
 Install `gcc-avr` and [avrdude](http://www.nongnu.org/avrdude/).
 
-Run `make upload` with the keyboard plugged in, and then activate the bootloader.
+Run `make upload` with the keyboard plugged in, and then activate the
+bootloader. If you idle in the bootloader for 8 seconds without
+uploading, the controller will exit the bootloader and return to
+normal operation.
 
-If you have never
-[uploaded the firmware before](http://www.pololu.com/docs/0J61/5.3),
+If your board has never before had
+[the firmware uploaded](http://www.pololu.com/docs/0J61/5.3),
 you will have to connect the `RST` pin to ground twice in under a
-second to jump to the bootloader. (This requires opening the case.)
+second to jump to the bootloader. (This requires removing the back panel.)
 For older models, `RST` and ground are exposed with hookup wire poking
 out of the bottom of the board, but for newer models they are the
-sixth and seventh pin on the right-side row of microcontroller pins.
+sixth and seventh pin down on the right-side row of microcontroller pins.
 
 If you've already got the firmware on the controller, you should have
 a button bound to reset; typically this is activated by jumping to
-layer 2 (`fn`+`ESC`) and then hitting enter.
+layer 2 (`fn`+`ESC`) and then hitting `enter`.
 
 If you are hacking the lower-level logic of the firmware, the reset
 key might not be reachable (due to bugs in layer functionality, etc)
-and you will have to initiate a manual reset.
+and you will have to initiate a manual reset as per above with the `RST` pin.
 
 To use another C layout, copy it to `layout.h`. To use a JSON layout,
 run `make jsonlayout LAYOUT=softdvorak` and it will be written to `layout.h`.
-
-Designed to run on a Teensy 2 but could probably be adapted to run on
-other USB-capable atmega boards.
 
 ## Pinout
 
