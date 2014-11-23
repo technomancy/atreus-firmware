@@ -1,6 +1,12 @@
 # Atreus Firmware
 
-This is my own firmware for the [Atreus keyboard](https://github.com/technomancy/atreus) I designed and built.
+This is my own firmware for the [Atreus keyboard](https://github.com/technomancy/atreus).
+
+This branch is specific to the
+[Teensy 2](http://pjrc.com/store/teensy.html) microcontroller. As of
+November 2014, boards are now being built around a circuit board with the
+[A-Star Micro](http://www.pololu.com/product/3101), which is supported
+on the master branch.
 
 ## Usage
 
@@ -16,6 +22,9 @@ Designed to run on a Teensy 2 but could probably be adapted to run on
 other USB-capable atmega boards.
 
 ## Pinout
+
+This is the pinout for the hand-wired Teensy 2 design. The circuit
+board uses a different pinout; see the master branch for that.
 
 Outputs:
 
