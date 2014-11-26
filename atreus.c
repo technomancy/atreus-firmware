@@ -80,8 +80,16 @@ void activate_row(int row) {
 void scan_row(int row) {
   if(((~PINB) & 8) && row == 3) reset();
   for(int col = 0; col < COL_COUNT; col++) {
-    if(~(*(col_ports[col])) & (1 << col_pins[col])) {
-      record(col, row);
+    // count the columns backwards since the PCB is flipped.
+    if(~(*(col_ports[10 - col])) & (1 << col_pins[10 - col])) {
+      // flipping the PCB also reverses rows 2 and 3
+      if(col == 5 && row == 2) {
+        record(col, 3);
+      } else if(col == 5 && row == 3) {
+        record(col, 2);
+      } else {
+        record(col, row);
+      }
     }
   }
 };
