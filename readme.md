@@ -9,7 +9,9 @@ use the `teensy2` branch of this repository.
 
 ## Usage
 
-Install `gcc-avr` and [avrdude](http://www.nongnu.org/avrdude/).
+Install
+[gcc-avr](http://www.nongnu.org/avr-libc/user-manual/install\_tools.html)
+and [avrdude](http://www.nongnu.org/avrdude/).
 
 Run `make upload` with the keyboard plugged in, and then activate the
 bootloader. If you idle in the bootloader for 8 seconds without
