@@ -24,9 +24,9 @@ int *current_layer;
 #define KEY_COUNT ROW_COUNT*COL_COUNT
 
 int rows[ROW_COUNT] = {0, 1, 3, 2};
-char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
-                               &PIND, \
-                               &PINE, &PINB, &PINB, &PINC, &PIND};
+volatile char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
+                                        &PIND,                          \
+                                        &PINE, &PINB, &PINB, &PINC, &PIND};
 int col_pins[COL_COUNT] = {7, 6, 7, 6, 6, 4, 6, 4, 5, 6, 7};
 
 // b7 b6 f7 f6 b6
