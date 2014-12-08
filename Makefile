@@ -21,6 +21,7 @@ build: $(TARGET).hex
 #
 #   make upload LAYOUT=softdvorak
 upload: $(TARGET).hex
+	while [ ! -r $(USB_DEVICE) ]; do sleep 1; done; \
 	avrdude -p $(MCU) -c avr109 -U flash:w:$(TARGET).hex -P $(USB_DEVICE)
 
 # Build a keyboard layout from a JSON description.
