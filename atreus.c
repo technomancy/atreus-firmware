@@ -73,12 +73,11 @@ void record(int col, int row) {
 };
 
 void activate_row(int row) {
-  PORTD = (char)(~(1 << rows[row])) | 0x20; // leave the LED on
+  PORTD = (char)(~(1 << rows[row]));
   _delay_us(50);
 };
 
 void scan_row(int row) {
-  if(((~PINB) & 8) && row == 3) reset();
   for(int col = 0; col < COL_COUNT; col++) {
     if(~(*(col_ports[col])) & (1 << col_pins[col])) {
       record(col, row);
