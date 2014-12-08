@@ -14,9 +14,13 @@ Install
 and [avrdude](http://www.nongnu.org/avrdude/).
 
 Run `make upload` with the keyboard plugged in, and then activate the
-bootloader. If you idle in the bootloader for 8 seconds without
-uploading, the controller will exit the bootloader and return to
-normal operation.
+bootloader. If you idle in the bootloader for
+8 seconds without uploading, the controller will exit the bootloader
+and return to normal operation.
+
+If you've already got the firmware loaded on the controller, you
+should have a key bound to reset; typically this is activated by
+jumping to layer 2 (`fn`+`ESC`) and then hitting `enter`.
 
 If your board has never before had
 [the firmware uploaded](http://www.pololu.com/docs/0J61/5.3),
@@ -26,21 +30,19 @@ For older models, `RST` and ground are exposed with hookup wire poking
 out of the bottom of the board, but for newer models they are the
 sixth and seventh pin down on the right-side row of microcontroller pins.
 
-If you've already got the firmware on the controller, you should have
-a button bound to reset; typically this is activated by jumping to
-layer 2 (`fn`+`ESC`) and then hitting `enter`.
-
 If you are hacking the lower-level logic of the firmware, the reset
 key might not be reachable (due to bugs in layer functionality, etc)
 and you will have to initiate a manual reset as per above with the `RST` pin.
 
-To use another C layout, copy it to `layout.h`. To use a JSON layout,
-run `make jsonlayout LAYOUT=softdvorak` and it will be written to `layout.h`.
+To use another C layout, copy it to `layout.h`; for example `cp
+multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
+LAYOUT=softdvorak` and it will be written to `layout.h`.
 
 ## Pinout
 
 This is the pinout for the PCB-based Atreus using an A-Star
-microcontroller. The Teensy 2 variants use a different pinout.
+microcontroller. ([Mark 3](https://github.com/technomancy/atreus/blob/master/changelog.md)
+onwards.) The Teensy 2 variants use a different pinout.
 
 Outputs:
 
@@ -57,32 +59,6 @@ Inputs:
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
     | pin number    | B7 | B6 | F7 | F6 | B6 | D4 | E6 | B4 | B5 | C6 | D7 |
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
-
-## Layouts in JSON
-
-See `qwerty.json` for an example.
-
-The layout JSON should simply be a three-dimensional array. At the top
-level, every array element is a layer. You can have up to 64
-layers. Each layer is an array of rows, and each row is an array of
-keycodes. A keycode can either be a keypress (described in
-`usb_keyboard.h`), a keypress with a modifier (like `["shift", "7"]`
-to insert a `&` character), `"fn"` to switch to layer 1 while held, or
-`["layer", 0]` to switch to a given layer beyond while the key is
-being held. It's also advised to include a `["reset"]` key as this is
-used to program updates to the firmware without opening the case to
-hit the hardware reset button. Finally, an empty string can be used to
-indicate a keypress which does nothing.
-
-The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
-atreus-make` will compile a given JSON file into a `.hex` file for
-uploading, and `M-x atreus-view` will compile JSON into an HTML table
-and open it in the browser. But the `jsonlayout` makefile target
-automates this.
-Alternatively there is a script `atreus-layout-to-svg.sh` that will
-compile the json into HTML document with embedded SVG layouts. The
-`jsonlayout` makefile target also automates this. 
-(`atreus-layout-to-svg.sh` relies on sed and jq)
 
 ## Layouts in C
 
@@ -109,6 +85,33 @@ before the rest of the keycodes are looked up, so this is how
 layer-changing functions should be defined. There is also a
 `per_cycle` function you can define which will run once per completed
 scan.
+
+## Layouts in JSON
+
+See `qwerty.json` for an example.
+
+The layout JSON should simply be a three-dimensional array. At the top
+level, every array element is a layer. You can have up to 64
+layers. Each layer is an array of rows, and each row is an array of
+keycodes. A keycode can either be a keypress (described in
+`usb_keyboard.h`), a keypress with a modifier (like `["shift", "7"]`
+to insert a `&` character), `"fn"` to switch to layer 1 while held, or
+`["layer", 0]` to switch to a given layer beyond while the key is
+being held. It's also advised to include a `["reset"]` key as this is
+used to program updates to the firmware without opening the case to
+hit the hardware reset button. Finally, an empty string can be used to
+indicate a keypress which does nothing.
+
+The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
+atreus-make` will compile a given JSON file into a `.hex` file for
+uploading, and `M-x atreus-view` will compile JSON into an HTML table
+and open it in the browser. But the `jsonlayout` makefile target
+automates this.
+
+Alternatively there is a script `atreus-layout-to-svg.sh` that will
+compile the json into HTML document with embedded SVG layouts. The
+`jsonlayout` makefile target also automates this. 
+(`atreus-layout-to-svg.sh` relies on sed and jq)
 
 ## How it works
 
