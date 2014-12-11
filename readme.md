@@ -13,10 +13,22 @@ Install
 [gcc-avr](http://www.nongnu.org/avr-libc/user-manual/install\_tools.html)
 and [avrdude](http://www.nongnu.org/avrdude/).
 
+On Debian-based systems:
+
+    $ sudo apt-get install avrdude gcc-avr
+
+On Mac OS X with Homebrew:
+
+    $ brew tap larsimmisch/avr
+    $ brew install avr-libc
+    $ brew install avrdude
+
 Run `make upload` with the keyboard plugged in, and then activate the
-bootloader. If you idle in the bootloader for
-8 seconds without uploading, the controller will exit the bootloader
-and return to normal operation.
+bootloader. Depending on your OS, it may expose the USB device
+somewhere other than the default of `/dev/ttyACM0`; if so you can run
+`make upload USB=/dev/cu.usbmodem1411` etc. If you idle in the
+bootloader for 8 seconds without uploading, the controller will exit
+the bootloader and return to normal operation.
 
 If you've already got the firmware loaded on the controller, you
 should have a key bound to reset; typically this is activated by
