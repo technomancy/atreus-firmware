@@ -24,31 +24,35 @@ On Mac OS X with Homebrew:
     $ brew install avrdude
 
 Run `make upload` with the keyboard plugged in, and then activate the
-bootloader. Depending on your OS, it may expose the USB device
-somewhere other than the default of `/dev/ttyACM0`; if so you can run
-`make upload USB=/dev/cu.usbmodem1411` etc. If you idle in the
-bootloader for 8 seconds without uploading, the controller will exit
-the bootloader and return to normal operation.
+bootloader with reset (see below). Depending on your OS, it may expose
+the USB device somewhere other than the default of `/dev/ttyACM0`; if
+so you can run `make upload USB=/dev/cu.usbmodem1411` etc. If you idle
+in the bootloader for 8 seconds without uploading, the controller will
+exit the bootloader and return to normal operation.
+
+To use another C layout, copy it to `layout.h`; for example `cp
+multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
+LAYOUT=softdvorak` and it will be written to `layout.h`.
+
+## Reset
 
 If you've already got the firmware loaded on the controller, you
 should have a key bound to reset; typically this is activated by
 jumping to layer 2 (`fn`+`ESC`) and then hitting `enter`.
 
 If your board has never before had
-[the firmware uploaded](http://www.pololu.com/docs/0J61/5.3),
-you will have to connect the `RST` pin to ground twice in under a
-second to jump to the bootloader. (This requires removing the back panel.)
-For older models, `RST` and ground are exposed with hookup wire poking
-out of the bottom of the board, but for newer models they are the
-sixth and seventh pin down on the right-side row of microcontroller pins.
+[the firmware uploaded](http://www.pololu.com/docs/0J61/5.3), you will
+have to *hard reset* by connecting the `RST` pin to ground twice in
+under a second to jump to the bootloader. (This requires removing the
+back panel.)  For older models, `RST` and ground are exposed with
+hookup wire poking out of the bottom of the board, but for newer
+models they are the sixth and seventh pin down on the right-side row
+of microcontroller pins. For first-time uploads, hit reset before
+running `make upload`.
 
 If you are hacking the lower-level logic of the firmware, the reset
 key might not be reachable (due to bugs in layer functionality, etc)
 and you will have to initiate a manual reset as per above with the `RST` pin.
-
-To use another C layout, copy it to `layout.h`; for example `cp
-multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
-LAYOUT=softdvorak` and it will be written to `layout.h`.
 
 ## Pinout
 
