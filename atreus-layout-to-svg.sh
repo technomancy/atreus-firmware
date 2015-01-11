@@ -9,6 +9,14 @@ Usage: atreus-layout-to-svg.sh mylayout.json
 
 Output: Creates file: mylayout-svg.html"
 
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='Linux'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+   platform='Darwin'
+fi
+
 argc=$#
 if [ $argc -ne 1 ]; then
   echo "$usage"
@@ -28,7 +36,7 @@ function rendercharacters {
   -e 's/shift4/\$/' \
   -e 's/shift5/%/' \
   -e 's/shift6/\^/' \
-  -e 's/shift7/&/' \
+  -e 's/shift7/\\\&/' \
   -e 's/shift8/*/' \
   -e 's/shift9/(/' \
   -e 's/shift0/)/' \
@@ -90,13 +98,19 @@ do
   layerfile="$layoutfile.layer$i.svg"
   cp atreus-layout.svg "$layerfile"
 
-  sed -i "" "s/>Layer 0</>Layer $i</" "$layerfile"
+  sed -i "" -e "s/>Layer 0</>Layer $i</" "$layerfile"
   for j in {0..41}
   do
     key=$(echo "$layer" | jq -c -r .["$j"])
     key=$(rendercharacters "$key")
     debuglog "key $j = $key"
-    sed -i "" "s/>$((j + 1))</>$key</" "$layerfile"
+    #This OS check is dirty but works for now.  My bash-fu is weak
+    if [[ "$platform" == 'Linux' ]]; then
+      #cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
+      sed -i -e "s/>$((j + 1))</>$key</" "$layerfile"
+    elif [[ "$platform" == 'Darwin' ]]; then
+      sed -i "" -e "s/>$((j + 1))</>$key</" "$layerfile"
+    fi
   done
   cat "$layerfile" >> "$htmlfile"
   rm "$layerfile"
