@@ -15,7 +15,7 @@ and [avrdude](http://www.nongnu.org/avrdude/).
 
 On Debian-based systems:
 
-    $ sudo apt-get install avrdude gcc-avr
+    $ sudo apt-get install avrdude gcc-avr avr-libc
 
 On Mac OS X with Homebrew:
 
