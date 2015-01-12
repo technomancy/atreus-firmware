@@ -1,5 +1,6 @@
 *.o
 atreus
 atreus.hex
-layout.h
+layout.h*
 layout.html
+/*.json.html
