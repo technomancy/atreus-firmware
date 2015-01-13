@@ -54,6 +54,10 @@ If you are hacking the lower-level logic of the firmware, the reset
 key might not be reachable (due to bugs in layer functionality, etc)
 and you will have to initiate a manual reset as per above with the `RST` pin.
 
+Sometimes it can be tricky to get the timing right with the hard
+reset; it can take a few attempts when you are first uploading the
+firmware to a fresh board.
+
 ## Pinout
 
 This is the pinout for the PCB-based Atreus using an A-Star
