@@ -30,6 +30,14 @@ so you can run `make upload USB=/dev/cu.usbmodem1411` etc. If you idle
 in the bootloader for 8 seconds without uploading, the controller will
 exit the bootloader and return to normal operation.
 
+You can identify the USB device like so:
+
+```
+$ ls /dev > /tmp/dev-off # run this while the device is out of bootloader mode
+$ ls /dev > /tmp/dev-on # run this while the device is in bootloader mode
+$ diff /tmp/dev-off /tmp/dev-on
+```
+
 To use another C layout, copy it to `layout.h`; for example `cp
 multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
 LAYOUT=softdvorak` and it will be written to `layout.h`.
