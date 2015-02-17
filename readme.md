@@ -33,7 +33,7 @@ exit the bootloader and return to normal operation.
 You can identify the USB device like so:
 
 ```
-$ ls /dev > /tmp/dev-off # run this while the device is out of bootloader mode
+$ ls /dev > /tmp/dev-off # run this while the device is unplugged
 $ ls /dev > /tmp/dev-on # run this while the device is in bootloader mode
 $ diff /tmp/dev-off /tmp/dev-on
 ```
