@@ -30,6 +30,9 @@ so you can run `make upload USB=/dev/cu.usbmodem1411` etc. If you idle
 in the bootloader for 8 seconds without uploading, the controller will
 exit the bootloader and return to normal operation.
 
+If the upload does not complete, check the permissions on the USB
+device and ensure it's writeable by your user.
+
 You can identify the USB device like so:
 
 ```
