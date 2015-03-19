@@ -23,10 +23,12 @@ int *current_layer;
 #define COL_COUNT 11
 #define KEY_COUNT ROW_COUNT*COL_COUNT
 
-int rows[ROW_COUNT] = {0, 1, 3, 2};
-char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
-                               &PIND, \
-                               &PINE, &PINB, &PINB, &PINC, &PIND};
+volatile char * row_ports[ROW_COUNT] = {&PORTD, &PORTD, &PORTD, &PORTD};
+volatile char * row_dirs[ROW_COUNT] = {&DDRD, &DDRD, &DDRD, &DDRD};
+int row_pins[ROW_COUNT] = {0, 1, 3, 2};
+volatile char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
+                                        &PIND,                          \
+                                        &PINE, &PINB, &PINB, &PINC, &PIND};
 int col_pins[COL_COUNT] = {7, 6, 7, 6, 6, 4, 6, 4, 5, 6, 7};
 
 // b7 b6 f7 f6 b6
@@ -72,13 +74,19 @@ void record(int col, int row) {
   presses[pressed_count++] = (row * COL_COUNT) + col;
 };
 
+void deactivate_rows() {
+  for (int r = 0; r < ROW_COUNT; r++) {
+    *(row_ports[r]) |= (char)(1 << row_pins[r]);
+  }
+}
+
 void activate_row(int row) {
-  PORTD = (char)(~(1 << rows[row])) | 0x20; // leave the LED on
+  deactivate_rows();
+  *(row_ports[row]) &= (char)(~(1 << row_pins[row]));
   _delay_us(50);
 };
 
 void scan_row(int row) {
-  if(((~PINB) & 8) && row == 3) reset();
   for(int col = 0; col < COL_COUNT; col++) {
     // count the columns backwards since the PCB is flipped.
     if(~(*(col_ports[10 - col])) & (1 << col_pins[10 - col])) {
@@ -177,10 +185,13 @@ void calculate_presses() {
 
 void init() {
   CPU_PRESCALE(0);
-  DDRB = DDRC = DDRE = DDRF = 0; // columns
-  PORTB = PORTC = PORTE = PORTF = 255; // activate pullup resistors on inputs
-  DDRD = 15; // rows (1 2 4 8) high and columns (16 32 64 128) low
-  PORTD = 15;
+  DDRB = DDRC = DDRE = DDRF = DDRD = 0; // set everything to input
+  PORTB = PORTC = PORTE = PORTF = PORTD = 255; // enable pullups
+  // set the row pins as outputs
+  for (int r = 0; r < ROW_COUNT; r++) {
+    *(row_dirs[r]) |= (char)(1 << row_pins[r]);
+  }
+  deactivate_rows();
   usb_init();
   while (!usb_configured()) /* wait */ ;
   _delay_ms(500);

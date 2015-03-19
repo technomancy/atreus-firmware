@@ -19,10 +19,12 @@ extern volatile uint8_t keyboard_leds;
 #define usb_debug_flush_output()
 
 
-#define KEY_CTRL    0x01
-#define KEY_SHIFT   0x02
-#define KEY_ALT     0x04
-#define KEY_GUI     0x08
+#define KEY_CTRL     0x01
+#define KEY_SHIFT    0x02
+#define KEY_ALT      0x04
+#define KEY_GUI      0x08
+#define KEY_COMMAND  0x08
+#define KEY_WINDOWS  0x08
 #define KEY_LEFT_CTRL   0x01
 #define KEY_LEFT_SHIFT  0x02
 #define KEY_LEFT_ALT    0x04
