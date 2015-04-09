@@ -8,7 +8,7 @@
   [["shift", "3"], ["shift", "4"], ["shift", "9"], ["shift", "0"],
   "TILDE", "PAGE_DOWN", "4", "5", "6", ["shift", "RIGHT_BRACE"]],
   [["shift", "5"], ["shift", "6"], "MINUS", "EQUAL", ["shift", "TILDE"],
-   "ALT", "BACKSLASH", "1", "2", "3", ["shift", "LEFT_BRACE"]],
+   "ALT", ["shift", "7"], "1", "2", "3", "BACKSLASH"],
   [["function", 2], ["shift", "INSERT"], "GUI", "SHIFT", "DELETE", "CTRL",
    "SPACE", "FN", "E", "0", "RIGHT_BRACE"]],
  [["HOME", "UP", "END", "INSERT", "PAGE_UP", "UP", "F7", "F8", "F9", "F10"],
