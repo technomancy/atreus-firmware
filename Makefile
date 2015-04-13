@@ -49,3 +49,5 @@ $(TARGET).hex: $(TARGET)
 %.o: %.c
 	avr-gcc -std=gnu99 -Os -D F_CPU=$(F_CPU)UL -mmcu=$(MCU) -c -o $@ $<
 
+udev:
+	cp a-star.rules /etc/udev/rules.d/
