@@ -9,7 +9,12 @@ ifneq ($(LAYOUT), qwerty)
 LAYOUT_DEPENDS=jsonlayout
 endif
 
-USB ?= /dev/ttyACM0
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+  USB ?= /dev/tty.usbmodem1411
+else
+  USB ?= /dev/ttyACM0
+endif
 
 # Build your keyboard layout
 #
