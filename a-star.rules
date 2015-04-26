@@ -1,0 +1,6 @@
+# Linux users can copy this file into /etc/udev/rules.d/ to prevent
+# ModemManager from taking over the virtual serial port of the A-Star
+# 32U4.
+
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1ffb", ATTRS{idProduct}=="0101", ENV{ID_MM_DEVICE_IGNORE}="1"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1ffb", ATTRS{idProduct}=="2300", ENV{ID_MM_DEVICE_IGNORE}="1"
