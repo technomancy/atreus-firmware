@@ -169,6 +169,16 @@ process as the switches settle. This means taking a few scans over the
 matrix and waiting until you get N successive reads of the same state
 before counting any single keypress or release as legitimate.
 
+## Problems
+
+There seem to be issues with [avrdude uploading the firmware from Ubuntu 14.04](https://arduino.stackexchange.com/questions/1380/sketches-not-uploading-to-micro-from-ubuntu-14-04).
+
+Occasionally there are issues when switching layers that a key pressed
+in one layer briefly sends a keycode for the layer you're switching
+to. The
+[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
+avoids this particular bug.
+
 ## TODO
 
 * Support layer toggle bindings
