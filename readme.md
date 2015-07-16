@@ -24,7 +24,7 @@ the USB device for uploading firmware.
 
 On Mac OS X with Homebrew:
 
-    $ brew tap larsimmisch/avr
+    $ brew tap osx-cross/avr
     $ brew install avr-libc
     $ brew install avrdude
 
