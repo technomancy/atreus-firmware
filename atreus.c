@@ -26,10 +26,11 @@ int *current_layer;
 volatile char * row_ports[ROW_COUNT] = {&PORTD, &PORTD, &PORTD, &PORTD};
 volatile char * row_dirs[ROW_COUNT] = {&DDRD, &DDRD, &DDRD, &DDRD};
 int row_pins[ROW_COUNT] = {0, 1, 3, 2};
-volatile char * col_ports[COL_COUNT] = {&PINB, &PIND, &PINF, &PINF, &PINB, \
+volatile char * col_ports[COL_COUNT] = {&PIND, &PINC, &PINB, &PINB, &PINE, \
                                         &PIND,                          \
-                                        &PINE, &PINB, &PINB, &PINC, &PIND};
-int col_pins[COL_COUNT] = {7, 6, 7, 6, 6, 4, 6, 4, 5, 6, 7};
+                                        &PINB, &PINF, &PINF, &PIND, &PINB};
+
+int col_pins[COL_COUNT] = {7, 6, 5, 4, 6, 4, 6, 6, 7, 6, 7};
 
 // b7 b6 f7 f6 b6
 // e6 b4 b5 c6 d7
