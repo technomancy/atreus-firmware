@@ -4,6 +4,9 @@ F_CPU=16000000
 
 TARGET=atreus
 
+SWAPCOLUMNS=yes
+# set to allow for flipping the PCB
+
 LAYOUT ?= qwerty
 ifneq ($(LAYOUT), qwerty)
 LAYOUT_DEPENDS=jsonlayout
