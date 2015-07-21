@@ -9,7 +9,6 @@
 
 #define CPU_PRESCALE(n) (CLKPR = 0x80, CLKPR = (n))
 
-
 // Layout setup
 
 void reset(void);
@@ -195,6 +194,14 @@ void init() {
   for (int r = 0; r < ROW_COUNT; r++) {
     *(row_dirs[r]) |= (char)(1 << row_pins[r]);
   }
+
+#ifdef SWAPCOLUMNS
+// This swaps middle two keys in case PCB was flipped (since those are on the same column)
+  layer0[27]^=layer0[38]^=layer0[27]^=layer0[38];
+  layer1[27]^=layer1[38]^=layer1[27]^=layer1[38];
+  layer2[27]^=layer2[38]^=layer2[27]^=layer2[38];
+#endif
+
   deactivate_rows();
   usb_init();
   while (!usb_configured()) /* wait */ ;
