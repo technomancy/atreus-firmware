@@ -98,6 +98,11 @@ Inputs:
     | pin number    | B7 | B6 | F7 | F6 | B6 | D4 | E6 | B4 | B5 | C6 | D7 |
     |---------------+----+----+----+----+----+----+----+----+----+----+----|
 
+If you soldered the PCB in upside down, never fear! This can be fixed
+in the firmware without removing the switches and resoldering. Simply
+run `make SWAPCOLUMNS=yes USB=...` to use a reversed pinout
+configuration.
+
 ## Layouts in C
 
 Layouts in C are arrays of integers. For basic key presses, use the
