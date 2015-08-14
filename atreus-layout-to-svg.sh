@@ -42,7 +42,7 @@ function rendercharacters {
   -e 's/shift0/)/' \
   -e 's/shiftTILDE/~/' \
   -e 's/shiftMINUS/_/' \
-  -e 's/shiftEQUALS/+/' \
+  -e 's/shiftEQUAL/+/' \
   -e 's/shiftBACKSLASH/|/' \
   -e 's/shiftLEFT_BRACE/{/' \
   -e 's/shiftRIGHT_BRACE/}/' \
@@ -109,12 +109,9 @@ do
       #cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
       sed -i -e "s/>$((j + 1))</>$key</" "$layerfile"
     elif [[ "$platform" == 'Darwin' ]]; then
-      sed -i "" -e "s/>$((j + 1))</>$key</" "$layerfile"
+      sed -i "" -e "s/>x$((j + 1))x</>$key</" "$layerfile"
     fi
   done
   cat "$layerfile" >> "$htmlfile"
   rm "$layerfile"
 done
-
-
-
