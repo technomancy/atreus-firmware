@@ -52,6 +52,12 @@ To use another C layout, copy it to `layout.h`; for example `cp
 multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
 LAYOUT=softdvorak` and it will be written to `layout.h`.
 
+Usually you won't be able to upload the firmware from a virtualized
+OS; the virtualization interferes with the USB connection. However,
+you can compile the `.hex` file on a virtualized OS and take the hex
+file to a physical host and upload it with `avrdude` without
+installing the full compiler toolchain.
+
 ## Reset
 
 If you've already got the firmware loaded on the controller, you
