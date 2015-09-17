@@ -58,6 +58,34 @@ you can compile the `.hex` file on a virtualized OS and take the hex
 file to a physical host and upload it with `avrdude` without
 installing the full compiler toolchain.
 
+## Windows
+
+Start by installing the A-Star drivers, as
+[documented by Pololu](https://www.pololu.com/docs/0J61/6.1). Once the
+driver is installed and the device is plugged in, you can determine
+the correct port setting by looking at the "Ports (COM & LPT)"
+[section of the Windows Device Manager](https://a.pololu-files.com/picture/0J5272.500.png);
+it should show up as "Pololu A-Star Micro 32U4".
+
+You can install the whole development toolchain using
+[WinAVR](http://winavr.sourceforge.net/) to compile using `make upload
+[...]` with the instructions above.
+
+However, if the whole compiler setup is too complicated, it's also
+possible to download a
+[precompiled firmware](http://atreus.technomancy.us/atreus-qwerty.hex)
+containing the default layout and uploading it with the simpler
+[AVRDUDESS](http://blog.zakkemble.co.uk/avrdudess-a-gui-for-avrdude/).
+
+These are the steps to using AVRDUDESS:
+
+* pick "avr109" as the programmer
+* select "ATmega32u4" from the MCU section in the upper left
+* select the port in the upper left as found in the device manager
+* choose the .hex file you downloaded in the "flash" section
+* reset the microcontroller so that the LED is gently pulsing
+* press "go" under "flash"
+
 ## Reset
 
 If you've already got the firmware loaded on the controller, you
