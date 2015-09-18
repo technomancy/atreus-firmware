@@ -63,9 +63,11 @@ installing the full compiler toolchain.
 Start by installing the A-Star drivers, as
 [documented by Pololu](https://www.pololu.com/docs/0J61/6.1). Once the
 driver is installed and the device is plugged in, you can determine
-the correct port setting by looking at the "Ports (COM & LPT)"
+the correct port setting by resetting the controller and looking at
+the "Ports (COM & LPT)"
 [section of the Windows Device Manager](https://a.pololu-files.com/picture/0J5272.500.png);
-it should show up as "Pololu A-Star Micro 32U4".
+it should show up as "Pololu A-Star Micro 32U4" if you check within 8
+seconds of initiating a reset.
 
 You can install the whole development toolchain using
 [WinAVR](http://winavr.sourceforge.net/) to compile using `make upload
