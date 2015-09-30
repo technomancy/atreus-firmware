@@ -8,9 +8,6 @@ SWAPCOLUMNS=no
 # set to allow for flipping the PCB
 
 LAYOUT ?= qwerty
-ifneq ($(LAYOUT), qwerty)
-LAYOUT_DEPENDS=jsonlayout
-endif
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
