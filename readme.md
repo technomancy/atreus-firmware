@@ -26,7 +26,7 @@ On Mac OS X with Homebrew:
 
     $ brew tap osx-cross/avr
     $ brew install avr-libc
-    $ brew install avrdude
+    $ brew install avrdude --with-usb
 
 Run `make upload` with the keyboard plugged in, and then activate the
 bootloader with reset (see below). Depending on your OS, it may expose
