@@ -28,6 +28,9 @@ On Mac OS X with Homebrew:
     $ brew install avr-libc
     $ brew install avrdude --with-usb
 
+If you don't want to use Homebrew you can instead download
+[Crosspack for AVR](https://www.obdev.at/products/crosspack/index.html).
+
 Run `make upload` with the keyboard plugged in, and then activate the
 bootloader with reset (see below). Depending on your OS, it may expose
 the USB device somewhere other than the default of `/dev/ttyACM0`; if
