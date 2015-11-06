@@ -107,7 +107,7 @@ do
     #This OS check is dirty but works for now.  My bash-fu is weak
     if [[ "$platform" == 'Linux' ]]; then
       #cat "$layerfile" | sed -e "s/>$((j + 1))</>$key</" > "$layerfile"
-      sed -i -e "s/>$((j + 1))</>$key</" "$layerfile"
+      sed -i -e "s/>x$((j + 1))x</>$key</" "$layerfile"
     elif [[ "$platform" == 'Darwin' ]]; then
       sed -i "" -e "s/>x$((j + 1))x</>$key</" "$layerfile"
     fi
