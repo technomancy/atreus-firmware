@@ -52,8 +52,7 @@ $ diff /tmp/dev-off /tmp/dev-on
 ```
 
 To use another C layout, copy it to `layout.h`; for example `cp
-multidvorak.h layout.h`. To use a JSON layout, run `make jsonlayout
-LAYOUT=softdvorak` and it will be written to `layout.h`.
+multidvorak.h layout.h`.
 
 Usually you won't be able to upload the firmware from a virtualized
 OS; the virtualization interferes with the USB connection. However,
@@ -167,33 +166,6 @@ before the rest of the keycodes are looked up, so this is how
 layer-changing functions should be defined. There is also a
 `per_cycle` function you can define which will run once per completed
 scan.
-
-## Layouts in JSON
-
-See `qwerty.json` for an example.
-
-The layout JSON should simply be a three-dimensional array. At the top
-level, every array element is a layer. You can have up to 64
-layers. Each layer is an array of rows, and each row is an array of
-keycodes. A keycode can either be a keypress (described in
-`usb_keyboard.h`), a keypress with a modifier (like `["shift", "7"]`
-to insert a `&` character), `"fn"` to switch to layer 1 while held, or
-`["layer", 0]` to switch to a given layer beyond while the key is
-being held. It's also advised to include a `["reset"]` key as this is
-used to program updates to the firmware without opening the case to
-hit the hardware reset button. Finally, an empty string can be used to
-indicate a keypress which does nothing.
-
-The JSON layouts are parsed by the `atreus.el` code in Emacs. `M-x
-atreus-make` will compile a given JSON file into a `.hex` file for
-uploading, and `M-x atreus-view` will compile JSON into an HTML table
-and open it in the browser. But the `jsonlayout` makefile target
-automates this.
-
-Alternatively there is a script `atreus-layout-to-svg.sh` that will
-compile the json into HTML document with embedded SVG layouts. The
-`jsonlayout` makefile target also automates this. 
-(`atreus-layout-to-svg.sh` relies on sed and jq)
 
 ## How it works
 
