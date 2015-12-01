@@ -23,8 +23,8 @@ unsigned int *current_layer;
 #define KEY_COUNT ROW_COUNT*COL_COUNT
 
 volatile char * row_ports[ROW_COUNT] = {&PORTD, &PORTD, &PORTD, &PORTD};
-volatile char * row_dirs[ROW_COUNT] = {&DDRD, &DDRD, &DDRD, &DDRD};
-int row_pins[ROW_COUNT] = {0, 1, 3, 2};
+volatile char * row_dirs[ROW_COUNT] = {&DDRD, &DDRD, &DDRD, &DDRB};
+int row_pins[ROW_COUNT] = {0, 1, 3, 3};
 
 #ifdef SWAPCOLUMNS
 volatile char * col_ports[COL_COUNT] = {&PIND, &PINC, &PINB, &PINB, &PINE, \
@@ -188,7 +188,8 @@ void calculate_presses() {
 
 void init() {
   CPU_PRESCALE(0);
-  DDRB = DDRC = DDRE = DDRF = DDRD = 0; // set everything to input
+  DDRC = DDRE = DDRF = DDRD = 0; // set everything to input
+  DDRB = 1 << 3 // port B should be all input except pin 3
   PORTB = PORTC = PORTE = PORTF = PORTD = 255; // enable pullups
   // set the row pins as outputs
   for (int r = 0; r < ROW_COUNT; r++) {
