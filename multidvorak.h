@@ -10,7 +10,7 @@
    The third layer (activated by fn+esc) is just mostly function keys
    (on the right) and arrow/navcluster keys (on the left). Tapping the
    fn key by itself will go back to the first layer, and hitting the
-   tab key will activate the "hardare dvorak" layers. Hitting Enter on
+   tab key will activate the "hardare dvorak" layers. Hitting "x" on
    this layer will reset the microcontroller in order to allow new
    firmware to be uploaded.
  */
