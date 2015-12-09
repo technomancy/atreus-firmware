@@ -65,9 +65,11 @@ void layer_jump() {
   layer_to_jump = 2;
 };
 
+// toggle layer orbits for OS or "hardware" keycode translation.
 void hwdvorak() {
-  current_layer = layers[3];
-  base_layer = 3;
+  base_layer = base_layer ? 0 : 3;
+  current_layer_number = base_layer;
+  current_layer = layers[base_layer];
 };
 
 void (*layer_functions[])(void) = {reset, activate_fn, layer_jump, hwdvorak};
