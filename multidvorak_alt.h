@@ -1,12 +1,14 @@
 
-/* 
+/*
    This layout assumes that the OS will be translating keycodes into
    Dvorak for the first two layers, as well as an alternate pair of
    layouts for machines that aren't configured for Dvorak in the OS.
 
    The first layer has most of your keys in the expected positions,
    while the second layer (activated by the fn key) contains the
-   digits in a numpad orientation as well as most of the punctuatiion.
+   digits in a numpad orientation as well as arrows and most of the
+   punctuation. %, ^, ~, and | don't have their own key; they need
+   fn+shift to be hit.
 
    The third layer (activated by fn+esc) is just mostly function keys
    (on the right) and arrow/navcluster keys (on the left). Tapping the
