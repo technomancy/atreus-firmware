@@ -31,6 +31,19 @@ void (*layer_functions[])(void) = {reset, activate_fn, layer_jump};
 void per_cycle() {
   if(fn_decay > 1) {
     current_layer = layers[1];
+
+    // This hack checks each pressed key to see if it is the left
+    // shift key. If the left shift is pressed (in combination with
+    // the fn key) we switch to layer 2 instead of 1, and remove the
+    // left shift from the list of pressed keys.
+    for(int i = 0; i < pressed_count; i++) {
+      unsigned int keycode = current_layer[presses[i]];
+      if(keycode == KEYBOARD_LEFT_SHIFT) {
+        presses[i] = 0;
+        current_layer = layers[2];
+      }
+    }
+
     fn_decay--;
   } else if(fn_decay == 1) {
     current_layer_number = layer_to_jump;
