@@ -7,14 +7,14 @@ void activate_fn() {
 int layer_to_momentary = 1;
 
 void layer_momentary() {
-  layer_to_momentary = 2;
+  layer_to_momentary = 3;
 };
 
 int layer_to_jump = 0;
 
 // jump to this layer when fn is released
 void layer_jump() {
-  layer_to_jump = 3;
+  layer_to_jump = 2;
 };
 
 void (*layer_functions[])(void) = {reset, activate_fn, layer_jump, layer_momentary};
