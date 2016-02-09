@@ -1,3 +1,12 @@
+// lorent.h - A custom layout for @lorentrogers
+//
+// This file makes a few changes to the standard layout:
+//  * Make fn+Shift momentarily switch to layer 2
+//  * Move reset to the N on layer 2
+//  * Make the old reset and Enter again on layer 2
+//  * Swap the arrows for the FN keys on layer 2 (left/right hand)
+//  * To use shift on layer 2 you must jump, rather than use momentary
+
 int layer0[44] = {
     KEY_Q, KEY_W, KEY_E, KEY_R, KEY_T, 0, KEY_Y, KEY_U, KEY_I, KEY_O, KEY_P,
     KEY_A, KEY_S, KEY_D, KEY_F, KEY_G, 0, KEY_H, KEY_J, KEY_K, KEY_L, KEY_SEMICOLON,
