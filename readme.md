@@ -7,6 +7,8 @@ This branch is specific to the Atreus variant that uses the
 used the [Teensy 2](http://pjrc.com/store/teensy.html); these should
 use the `teensy2` branch of this repository.
 
+[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
+
 ## Layout
 
 Only a handful of punctuation marks (and no digits) are available
@@ -181,7 +183,8 @@ Inputs:
 If you soldered the PCB in upside down, never fear! This can be fixed
 in the firmware without removing the switches and resoldering. Simply
 run `make SWAPCOLUMNS=yes USB=...` to use a reversed pinout
-configuration.
+configuration. A [pre-compiled firmware](https://atreus.technomancy.us/atreus-swapcolumns.hex)
+with the columns swapped is also available.
 
 ## Customizing Layout
 
@@ -232,17 +235,10 @@ before counting any single keypress or release as legitimate.
 There seem to be issues with [avrdude uploading the firmware from Ubuntu 14.04](https://arduino.stackexchange.com/questions/1380/sketches-not-uploading-to-micro-from-ubuntu-14-04).
 
 Occasionally there are issues when switching layers that a key pressed
-in one layer briefly sends a keycode for the layer you're switching
-to. The
-[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
-avoids this particular bug.
-
-## TODO
-
-* Support layer toggle bindings
+in one layer briefly sends a keycode for the layer you're switching to.
 
 ## License
 
-Copyright © 2014 Phil Hagelberg and contributors
+Copyright © 2014-2016 Phil Hagelberg and contributors
 
 Released under the [GNU GPL version 3](https://www.gnu.org/licenses/gpl.html).
