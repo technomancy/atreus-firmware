@@ -183,8 +183,10 @@ Inputs:
 If you soldered the PCB in upside down, never fear! This can be fixed
 in the firmware without removing the switches and resoldering. Simply
 run `make SWAPCOLUMNS=yes USB=...` to use a reversed pinout
-configuration. A [pre-compiled firmware](https://atreus.technomancy.us/atreus-swapcolumns.hex)
-with the columns swapped is also available.
+configuration. A
+[pre-compiled firmware](https://atreus.technomancy.us/atreus-swapcolumns.hex)
+with the columns swapped is also available. You may need to run `make
+clean` before using this option.
 
 ## Customizing Layout
 
