@@ -2,12 +2,18 @@
 
 This is the firmware for the [Atreus keyboard](https://github.com/technomancy/atreus).
 
+**Notice**: this codebase should be considered deprecated; the
+recommendation going forward is to use the
+[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
+instead. However, this codebase is still of interest to people who
+want to read the codebase since it is much simpler and easier to
+understand than TMK, where the support for additional keyboards and
+many advanced features make the code difficult to read.
+
 This branch is specific to the Atreus variant that uses the
 [A-Star Micro](http://www.pololu.com/product/3101). Earlier versions
 used the [Teensy 2](http://pjrc.com/store/teensy.html); these should
 use the `teensy2` branch of this repository.
-
-[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
 
 ## Layout
 
