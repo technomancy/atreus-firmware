@@ -126,7 +126,7 @@ void debounce(int passes_remaining) {
     scan_rows();
 
     if((pressed_count != last_pressed_count) || \
-       memcmp(presses, last_presses, pressed_count)) {
+       memcmp(presses, last_presses, pressed_count * sizeof(presses[0]))) {
       passes_remaining = DEBOUNCE_PASSES;
     } else {
       passes_remaining--;
