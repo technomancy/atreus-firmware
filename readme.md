@@ -4,11 +4,13 @@ This is the firmware for the [Atreus keyboard](https://github.com/technomancy/at
 
 **Notice**: this codebase should be considered deprecated; the
 recommendation going forward is to use the
-[TMK firmware](https://github.com/technomancy/tmk_keyboard/tree/atreus)
+[QMK firmware](https://github.com/technomancy/qmk_firmware/tree/master/keyboards/atreus)
 instead. However, this codebase is still of interest to people who
 want to read the codebase since it is much simpler and easier to
 understand than TMK, where the support for additional keyboards and
-many advanced features make the code difficult to read.
+many advanced features make the code difficult to read. The
+[Menelaus](https://git.sr.ht/~technomancy/menelaus) firmware written
+in Microscheme may also be interesting.
 
 This branch is specific to the Atreus variant that uses the
 [A-Star Micro](http://www.pololu.com/product/3101). Earlier versions
